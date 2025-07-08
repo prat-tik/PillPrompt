@@ -1,24 +1,45 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';  // useNavigate for redirect after login
 import './Login.css';
 
 function Login() {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setError('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.email || !form.password) {
       setError('Please enter both email and password.');
       return;
     }
-    // Placeholder for backend authentication
-    setError('Login functionality will be handled by the backend.');
+
+    try {
+      const response = await fetch('http://localhost:8080/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: form.email, password: form.password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.token) {
+        // Save token to localStorage
+        localStorage.setItem('token', data.token);
+        // Redirect to dashboard or home page
+        navigate('/dashboard');  // Adjust route as needed
+      } else {
+        setError(data.message || 'Login failed. Please try again.');
+      }
+    } catch (err) {
+      setError('Server error. Please try again later.');
+      console.error('Login error:', err);
+    }
   };
 
   return (

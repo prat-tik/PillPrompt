@@ -1,11 +1,36 @@
-const express = require('express');
-const app = express();
+require('dotenv').config();
+const app = require('./app'); // includes dashboard and auth routes
+const cron = require('node-cron');
+const pool = require('./utils/db');
 
-app.get('/', (req, res) => {
-  res.send('PillPrompt API is running!');
-});
+const PORT = process.env.PORT || 5000;
 
-const PORT = 5000;
+// CRON Scheduler: Runs every minute
+const sendDueReminders = async () => {
+  try {
+    const now = new Date();
+    const hhmm = now.toTimeString().slice(0, 5); // 'HH:MM'
+
+    const [reminders] = await pool.query(
+      `SELECT r.id, r.method, u.email, m.name, m.dosage
+       FROM reminders r
+       JOIN users u ON r.user_id = u.id
+       JOIN medications m ON r.medication_id = m.id
+       WHERE r.time = ? AND r.status = 'pending'`,
+      [hhmm]
+    );
+
+    for (const reminder of reminders) {
+      console.log(`Reminder for ${reminder.email}: Take ${reminder.name} (${reminder.dosage}) now via ${reminder.method}`);
+      await pool.query('UPDATE reminders SET status = "sent" WHERE id = ?', [reminder.id]);
+    }
+  } catch (err) {
+    console.error('Error sending reminders:', err);
+  }
+};
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+cron.schedule('* * * * *', sendDueReminders);
