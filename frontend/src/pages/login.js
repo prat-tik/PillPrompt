@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 
 function Login() {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -17,8 +18,8 @@ function Login() {
       setError('Please enter both email and password.');
       return;
     }
-    // Placeholder for backend authentication
-    setError('Login functionality will be handled by the backend.');
+    // Simulate successful login and redirect to dashboard
+    navigate('/dashboard');
   };
 
   return (
