@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import './Dashboard.css';
 
 function Dashboard() {
@@ -7,6 +8,7 @@ function Dashboard() {
   const [activity, setActivity] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Initialize navigate
 
   useEffect(() => {
     // Simulate API call delay with setTimeout
@@ -60,7 +62,7 @@ function Dashboard() {
 
       <button
         className="add-medications-btn"
-        onClick={() => alert('Add your medications functionality coming soon!')}
+        onClick={() => navigate('/add-medication')}
       >
         Add Your Medications
       </button>

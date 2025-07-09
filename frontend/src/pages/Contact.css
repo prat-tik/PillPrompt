@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+.contact-container {
+  max-width: 500px;
+  margin: 4rem auto;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0,71,171,0.10);
+  padding: 2.5rem 2rem 2rem 2rem;
+  font-family: 'Inter', Arial, sans-serif;
+}
+
+.contact-title {
+  color: #0047ab;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 0.7rem;
+}
+
+.contact-intro {
+  text-align: center;
+  color: #003366;
+  font-size: 1.08rem;
+  margin-bottom: 2rem;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #003366;
+  font-size: 1.07rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 0.9rem 1.1rem;
+  border: 1.5px solid #cfd8dc;
+  border-radius: 10px;
+  font-size: 1.07rem;
+  font-family: inherit;
+  transition: border 0.2s;
+  outline: none;
+  background: #f7f9fb;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #0047ab;
+  background: #f0f6ff;
+}
+
+.contact-form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.contact-btn {
+  background: #ccff00;
+  color: #0047ab;
+  border: none;
+  padding: 1rem 0;
+  border-radius: 999px;
+  font-size: 1.13rem;
+  font-weight: 700;
+  margin-top: 0.7rem;
+  box-shadow: 0 3px 16px rgba(0, 71, 171, 0.10);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.contact-btn:hover {
+  background: #0047ab;
+  color: #fff;
+}
+
+.form-error {
+  color: #c62828;
+  background: #ffeaea;
+  border-radius: 7px;
+  padding: 0.7rem 1.2rem;
+  font-size: 1.05rem;
+  text-align: center;
+}
+
+.form-success {
+  color: #388e3c;
+  background: #eaffea;
+  border-radius: 7px;
+  padding: 0.7rem 1.2rem;
+  font-size: 1.05rem;
+  text-align: center;
+}
+
+.contact-alt {
+  margin-top: 2.2rem;
+  text-align: center;
+  color: #003366;
+  font-size: 1.02rem;
+}
+
+.contact-alt a {
+  color: #0047ab;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.contact-alt a:hover {
+  color: #ccff00;
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .contact-container {
+    padding: 1.2rem 0.5rem;
+  }
+}

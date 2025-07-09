@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import './Home.css';
 import logo from '../assets/folder/3ed35b72-0eba-4417-851e-10bc6388ba43.jpg';
 
 function Home() {
+  // Ref for the How It Works section
+  const howItWorksRef = useRef(null);
+
+  // Scroll handler
+  const handleHowItWorksClick = (e) => {
+    e.preventDefault();
+    if (howItWorksRef.current) {
+      howItWorksRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="homepage-container">
       <nav className="navbar">
@@ -22,12 +33,15 @@ function Home() {
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to="/how-it-works"
-              className={({ isActive }) => (isActive ? 'active' : '')}
+            {/* Use # and prevent default to scroll */}
+            <a
+              href="#how-it-works"
+              onClick={handleHowItWorksClick}
+              className="nav-link"
+              style={{ cursor: 'pointer', color: 'inherit', textDecoration: 'none' }}
             >
               How It Works
-            </NavLink>
+            </a>
           </li>
           <li>
             <NavLink
@@ -66,7 +80,9 @@ function Home() {
         </div>
       </header>
 
-      <section className="features-section">
+      <section
+        className="features-section"
+      >
         <div className="feature-card">
           <span className="feature-icon">⏰</span>
           <h3>Smart Reminders</h3>
@@ -79,7 +95,12 @@ function Home() {
         </div>
       </section>
 
-      <section className="how-it-works-section">
+      {/* Add ref and id here */}
+      <section
+        className="how-it-works-section"
+        id="how-it-works"
+        ref={howItWorksRef}
+      >
         <h2>How It Works</h2>
         <div className="how-steps">
           <div className="how-step">
