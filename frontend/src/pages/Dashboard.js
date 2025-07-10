@@ -1,5 +1,15 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+// Adjust these import paths as needed for your project structure
+import API from '../api'; // or wherever your API utility is located
+import MedicationForm from '../components/MedicationForm';
+import ReminderForm from '../components/ReminderForm';
+import DoseLogForm from '../components/DoseLogForm';
+
 export default function Dashboard() {
   const [data, setData] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     API.get('/dashboard').then(res => setData(res.data));
@@ -10,8 +20,12 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-blue-50 px-6 py-8">
       {/* Header */}
-      <h1 className="text-3xl font-bold text-center text-blue-900 mb-2">Welcome, {data.user.name}</h1>
-      <p className="text-center text-gray-600 mb-6">Role: {data.user.role}</p>
+      <h1 className="text-3xl font-bold text-center text-blue-900 mb-2">
+        Welcome, {data.user.name}
+      </h1>
+      <p className="text-center text-gray-600 mb-6">
+        Role: {data.user.role}
+      </p>
 
       {/* Grid for features */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
