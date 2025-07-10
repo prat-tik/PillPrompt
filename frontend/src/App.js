@@ -10,6 +10,7 @@ import Contact from './pages/Contact';
 
 
 
+// import Dashboard from './pages/Dashboard';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
 
 
 
+      {/* <Route path="/dashboard" element={<Dashboard />} /> */}
 
     </Routes>
   );
