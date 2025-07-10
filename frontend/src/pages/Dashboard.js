@@ -1,63 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import './Dashboard.css';
-
-function Dashboard() {
-  const [userInfo, setUserInfo] = useState(null);
-  const [reminders, setReminders] = useState([]);
-  const [activity, setActivity] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate(); // Initialize navigate
+export default function Dashboard() {
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    // Simulate API call delay with setTimeout
-    setTimeout(() => {
-      try {
-        // Dummy user info
-        const userData = {
-          name: 'John Doe',
-          age: 35,
-          sex: 'Male',
-          photoUrl: 'https://randomuser.me/api/portraits/men/75.jpg',
-        };
-
-        // Dummy reminders
-        const remindersData = [
-          { time: '8:00 AM', med: 'Aspirin 75mg', status: 'Pending' },
-          { time: '12:00 PM', med: 'Vitamin D 1000IU', status: 'Pending' },
-          { time: '9:00 PM', med: 'Metformin 500mg', status: 'Taken' },
-        ];
-
-        // Dummy recent activity
-        const activityData = [
-          'Metformin 500mg taken at 9:00 PM',
-          'Vitamin D 1000IU scheduled for 12:00 PM',
-        ];
-
-        setUserInfo(userData);
-        setReminders(remindersData);
-        setActivity(activityData);
-        setLoading(false);
-      } catch (err) {
-        setError('Failed to load dummy data');
-        setLoading(false);
-      }
-    }, 1000); // Simulate 1 second delay
+    API.get('/dashboard').then(res => setData(res.data));
   }, []);
 
-  if (loading) return <div className="dashboard-container">Loading...</div>;
-  if (error) return <div className="dashboard-container">Error: {error}</div>;
+  if (!data) return <p className="text-center mt-10">Loading...</p>;
 
   return (
-    <div className="dashboard-container">
-      <div className="user-info">
-        <img src={userInfo.photoUrl} alt={`${userInfo.name}'s profile`} className="user-photo" />
-        <div className="user-details">
-          <h2>Welcome, {userInfo.name}</h2>
-          <p>Age: {userInfo.age}</p>
-          <p>Sex: {userInfo.sex}</p>
+    <div className="min-h-screen bg-blue-50 px-6 py-8">
+      {/* Header */}
+      <h1 className="text-3xl font-bold text-center text-blue-900 mb-2">Welcome, {data.user.name}</h1>
+      <p className="text-center text-gray-600 mb-6">Role: {data.user.role}</p>
+
+      {/* Grid for features */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Medications */}
+        <div className="bg-white rounded-2xl shadow-lg p-6">
+          <h2 className="text-xl font-semibold mb-3 text-blue-800">Your Medications</h2>
+          {data.medications.map(med => (
+            <div key={med.id} className="border-b py-2">
+              <strong>{med.name}</strong> — {med.dosage} ({med.schedule})
+            </div>
+          ))}
         </div>
+
+        {/* Reminders */}
+        <div className="bg-white rounded-2xl shadow-lg p-6">
+          <h2 className="text-xl font-semibold mb-3 text-blue-800">Upcoming Reminders</h2>
+          {data.reminders.map(rem => (
+            <div key={rem.id} className="border-b py-2">
+              {rem.time} via {rem.method}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Forms Section */}
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <MedicationForm onAdd={() => API.get('/dashboard').then(res => setData(res.data))} />
+        <ReminderForm meds={data.medications} onAdd={() => API.get('/dashboard').then(res => setData(res.data))} />
+        <DoseLogForm meds={data.medications} onAdd={() => API.get('/dashboard').then(res => setData(res.data))} />
       </div>
 
       <button
@@ -66,30 +49,6 @@ function Dashboard() {
       >
         Add Your Medications
       </button>
-
-      <div className="dashboard-section">
-        <h3>Today's Reminders</h3>
-        <ul className="reminder-list">
-          {reminders.map((item, i) => (
-            <li key={i} className={`reminder-item ${item.status.toLowerCase()}`}>
-              <span className="reminder-time">{item.time}</span>
-              <span className="reminder-med">{item.med}</span>
-              <span className="reminder-status">{item.status}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="dashboard-section">
-        <h3>Recent Activity</h3>
-        <ul className="activity-list">
-          {activity.map((act, i) => (
-            <li key={i}>{act}</li>
-          ))}
-        </ul>
-      </div>
     </div>
   );
 }
-
-export default Dashboard;

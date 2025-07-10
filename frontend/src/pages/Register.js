@@ -30,7 +30,7 @@ function Register() {
     setSuccess('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.name || !form.email || !form.password || !form.confirmPassword) {
       setError('Please fill out all fields.');
@@ -44,12 +44,33 @@ function Register() {
       setError('Passwords do not match.');
       return;
     }
-    // Placeholder for backend integration
-    setSuccess('Registration successful! Redirecting to login...');
-    setTimeout(() => {
-      navigate('/login');
-    }, 1200);
-    setForm({ name: '', email: '', password: '', confirmPassword: '' });
+
+    try {
+      const response = await fetch('http://localhost:8080/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          password: form.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.token) {
+        setSuccess('Registration successful! Redirecting to login...');
+        setTimeout(() => {
+          navigate('/login');
+        }, 1500);
+        setForm({ name: '', email: '', password: '', confirmPassword: '' });
+      } else {
+        setError(data.message || 'Registration failed. Please try again.');
+      }
+    } catch (err) {
+      setError('Server error. Please try again later.');
+      console.error('Registration error:', err);
+    }
   };
 
   return (
