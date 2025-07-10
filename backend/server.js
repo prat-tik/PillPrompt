@@ -1,15 +1,15 @@
 require('dotenv').config();
-const app = require('./app'); // includes dashboard and auth routes
+const app = require('./app');
 const cron = require('node-cron');
 const pool = require('./utils/db');
 
 const PORT = process.env.PORT || 5000;
 
-// CRON Scheduler: Runs every minute
+// Scheduler: run every minute to send reminders (console log stub)
 const sendDueReminders = async () => {
   try {
     const now = new Date();
-    const hhmm = now.toTimeString().slice(0, 5); // 'HH:MM'
+    const hhmm = now.toTimeString().slice(0, 5);
 
     const [reminders] = await pool.query(
       `SELECT r.id, r.method, u.email, m.name, m.dosage
@@ -34,3 +34,4 @@ app.listen(PORT, () => {
 });
 
 cron.schedule('* * * * *', sendDueReminders);
+

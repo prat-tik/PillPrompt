@@ -2,6 +2,8 @@ import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import './Home.css';
 import logo from '../assets/folder/3ed35b72-0eba-4417-851e-10bc6388ba43.jpg';
+// import { useState } from 'react';
+// import { useEffect } from 'react';
 
 function Home() {
   return (
