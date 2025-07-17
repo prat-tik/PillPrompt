@@ -4,7 +4,7 @@ const auth = require('../middleware/auth');
 const medicationController = require('../Controllers/medicationController');
 
 router.get('/', auth, medicationController.getAll);
-router.post('/', auth, medicationController.create);
+router.post('/create', auth, medicationController.create);
 router.put('/:id', auth, medicationController.update);
 router.delete('/:id', auth, medicationController.delete);
 

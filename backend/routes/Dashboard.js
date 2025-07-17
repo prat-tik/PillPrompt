@@ -1,12 +1,34 @@
+// routes/dashboard.js
 const express = require('express');
-const router = express.Router();
+const pool = require('../utils/db');
 const auth = require('../middleware/auth');
-const dashboardController = require('../Controllers/dashboardController');
 
-// Get dashboard data for the authenticated user
-router.get('/', auth, dashboardController.getDashboard);
+const router = express.Router();
 
-// (Optional) Add more dashboard-related routes as needed
-// router.post('/some-action', auth, dashboardController.someAction);
+router.get('/', auth, async (req, res) => {
+  const userId = req.user.id;
+  const user = {
+    id: req.user.id,
+    name: req.user.name,
+    role: req.user.role,
+    photo: req.user.photo
+  };
+  const [medications] = await pool.query(
+    'SELECT id, name, dosage FROM medications WHERE user_id = ?', [userId]
+  );
+  const [reminders] = await pool.query(
+    'SELECT r.id, r.time, r.method, m.name AS medication_name FROM reminders r JOIN medications m ON r.medication_id = m.id WHERE r.user_id = ?', [userId]
+  );
+  const [doseLogs] = await pool.query(
+    'SELECT d.id, d.taken_at, m.name AS medication_name FROM dose_logs d JOIN medications m ON d.medication_id = m.id WHERE d.user_id = ? ORDER BY d.taken_at DESC LIMIT 10', [userId]
+  );
+
+  res.json({
+    user,
+    medications,
+    reminders,
+    doseLogs
+  });
+});
 
 module.exports = router;

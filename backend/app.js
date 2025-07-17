@@ -5,7 +5,7 @@ const userRoutes = require('./routes/users');
 const medicationRoutes = require('./routes/medications');
 const reminderRoutes = require('./routes/reminders');
 const doseRoutes = require('./routes/doses');
-
+const dashboardRoutes = require('./routes/dashboard');
 const app = express();
 
 app.use(cors());
@@ -16,6 +16,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/medications', medicationRoutes);
 app.use('/api/reminders', reminderRoutes);
 app.use('/api/doses', doseRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 // Basic error handler
 app.use((err, req, res, next) => {

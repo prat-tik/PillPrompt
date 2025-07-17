@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AddMedication.css';
+import API from '../api'; // Adjust the import based on your API setup
 
 function AddMedication() {
   const [form, setForm] = useState({
@@ -23,27 +24,49 @@ function AddMedication() {
     setSuccess('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.name || !form.sex || !form.medicine || !form.dosage || !form.time) {
       setError('Please fill out all required fields.');
       return;
     }
-    setSuccess('Medication added! (Backend will handle saving)');
-    setForm({
-      name: '',
-      sex: '',
-      medicine: '',
-      dosage: '',
-      unit: 'mg',
-      time: '',
-      frequency: 'Once daily',
-      notes: '',
-    });
-    setTimeout(() => {
-      navigate('/dashboard');
-    }, 1200);
+
+    const payload = {
+      name: form.medicine,
+      dosage: `${form.dosage} ${form.unit}`,
+      schedule: `${form.frequency} at ${form.time}`,
+      notes: form.notes,
+      frequency: form.frequency,
+      medicine: form.medicine,
+      unit: form.unit,
+      time: form.time,
+      sex:form.sex      // Optionally: patientName: form.name, sex: form.sex
+    };
+
+    try {
+      console.log('Adding medication with payload:', payload);
+      const response = await API.post('/medications/create', payload);
+      setSuccess('Medication added!');
+      setForm({
+        name: '',
+        sex: '',
+        medicine: '',
+        dosage: '',
+        unit: 'mg',
+        time: '',
+        frequency: 'Once daily',
+        notes: '',
+      });
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 1200);
+    } catch (err) {
+      console.error('Error adding medication:', err);
+      setError(err.response?.data?.message || 'An error occurred. Please try again.');
+      setSuccess('');
+    }
   };
+
 
   return (
     <div className="add-medication-card">

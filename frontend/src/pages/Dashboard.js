@@ -1,22 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API from '../api';
 
-// Adjust these import paths as needed for your project structure
-import API from '../api'; // or wherever your API utility is located
+// Import your form components as before
 import MedicationForm from '../components/MedicationForm';
 import ReminderForm from '../components/ReminderForm';
 import DoseLogForm from '../components/DoseLogForm';
 
+// Example mock data
+const initialData = {
+  user: {
+    name: "Jane Doe",
+    role: "Patient",
+  },
+  medications: [
+    { id: 1, name: "Aspirin", dosage: "100mg", schedule: "Morning" },
+    { id: 2, name: "Metformin", dosage: "500mg", schedule: "Evening" },
+  ],
+  reminders: [
+    { id: 1, time: "8:00 AM", method: "SMS" },
+    { id: 2, time: "8:00 PM", method: "App Notification" },
+  ],
+};
 export default function Dashboard() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState(initialData);
   const navigate = useNavigate();
 
+  // Handlers for adding new items (simulate backend updates)
+  const handleAddMedication = (med) => {
+    setData(prev => ({
+      ...prev,
+      medications: [...prev.medications, { ...med, id: Date.now() }]
+    }));
+  };
+
+  const handleAddReminder = (rem) => {
+    setData(prev => ({
+      ...prev,
+      reminders: [...prev.reminders, { ...rem, id: Date.now() }]
+    }));
+  };
+
+  // You can add similar handlers for DoseLogForm if needed
   useEffect(() => {
     API.get('/dashboard').then(res => setData(res.data));
   }, []);
-
-  if (!data) return <p className="text-center mt-10">Loading...</p>;
-
   return (
     <div className="min-h-screen bg-blue-50 px-6 py-8">
       {/* Header */}
@@ -52,17 +80,18 @@ export default function Dashboard() {
 
       {/* Forms Section */}
       <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <MedicationForm onAdd={() => API.get('/dashboard').then(res => setData(res.data))} />
-        <ReminderForm meds={data.medications} onAdd={() => API.get('/dashboard').then(res => setData(res.data))} />
-        <DoseLogForm meds={data.medications} onAdd={() => API.get('/dashboard').then(res => setData(res.data))} />
+        {/* <MedicationForm onAdd={handleAddMedication} />
+        <ReminderForm meds={data.medications} onAdd={handleAddReminder} />
+        <DoseLogForm meds={data.medications} onAdd={() => {}} /> */}
       </div>
 
       <button
-        className="add-medications-btn"
-        onClick={() => navigate('/add-medication')}
+        className="addmedications-btn"
+        onClick={() => navigate('/addmedication')}
       >
         Add Your Medications
       </button>
     </div>
   );
 }
+

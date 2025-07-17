@@ -19,7 +19,7 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/add-medication" element={<AddMedication />} />
+      <Route path="/addmedication" element={<AddMedication />} />
         <Route path="/features" element={<Features />} />
         <Route path="/contact" element={<Contact />} />
 
