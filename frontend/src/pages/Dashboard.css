@@ -6,6 +6,7 @@
   box-shadow: 0 4px 24px rgba(0,71,171,0.09);
   padding: 2.5rem 2rem;
   font-family: 'Inter', Arial, sans-serif;
+    position: relative;
 }
 
 .user-info {

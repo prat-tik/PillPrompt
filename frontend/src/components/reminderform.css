@@ -1,0 +1,36 @@
+.add-reminder-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem; /* Adds space between each input group */
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Title */
+.add-reminder-form h2 {
+  font-size: 1.6rem;
+  color: #0047ab;
+  margin-bottom: 0.5rem;
+}
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  color: #ffffff;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  z-index: 1000;
+}
+
+.close-button:hover {
+  color: #c62828;
+}

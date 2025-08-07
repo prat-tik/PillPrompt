@@ -7,7 +7,7 @@ const sendDueReminders = async () => {
     const hhmm = now.toTimeString().slice(0, 5); // "HH:mm"
 
     const [reminders] = await pool.query(
-      'SELECT r.id, r.method, u.email, m.name, m.dosage FROM reminders r JOIN users u ON r.user_id = u.id JOIN medications m ON r.medication_id = m.id WHERE r.time = ? AND r.status = "pending"',
+      'SELECT r.id, r.method, u.email, m.name, m.dosage FROM reminders r JOIN users u ON r.user_id = u.id JOIN medications m ON r.medication_id = m.id WHERE r.time = ?',
       [hhmm]
     );
 

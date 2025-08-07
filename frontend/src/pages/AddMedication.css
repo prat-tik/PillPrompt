@@ -1,121 +1,160 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+.med-form-bg {
+  background: #e7f2ff; /* Soft pale blue background */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
 
-.add-medication-card {
-  max-width: 500px;
-  margin: 4rem auto;
+.med-form {
   background: #fff;
-  border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(0,71,171,0.10);
-  padding: 2.8rem 2.2rem 2.2rem 2.2rem;
-  font-family: 'Inter', Arial, sans-serif;
-}
-
-.add-medication-title {
-  color: #0047ab;
-  text-align: center;
-  margin-bottom: 2.2rem;
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-}
-
-.add-medication-form {
+  padding: 32px 28px 28px 28px;
+  border-radius: 16px;
+  box-shadow: 0 6px 28px #aac8ff36; /* Light shadow */
+  max-width: 540px; /* Wider form */
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1.45rem;
+  gap: 14px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.form-group label {
+.med-form h2,
+.med-form h4 {
+  color: #154d89; /* Deep mild blue */
   font-weight: 600;
-  color: #003366;
-  font-size: 1.07rem;
-  margin-bottom: 0.1rem;
-  letter-spacing: 0.01em;
+  margin-bottom: 6px;
+  text-align: center;
+  letter-spacing: 0.5px;
 }
 
-.add-medication-form input,
-.add-medication-form select,
-.add-medication-form textarea {
-  padding: 1rem 1.1rem;
-  border: 1.5px solid #cfd8dc;
-  border-radius: 10px;
-  font-size: 1.09rem;
-  font-family: inherit;
-  transition: border 0.2s;
+.med-form label {
+  color: #25567b; /* Medium blue-gray */
+  font-size: 0.98rem;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.med-form input,
+.med-form select,
+.med-form textarea {
+  font-size: 1rem;
+  border: 1.5px solid #d6e0f0; /* very light blue border */
+  border-radius: 7px;
+  padding: 10px 12px;
+  background: #f9fbff;
+  transition: border-color 0.16s ease-in-out;
   outline: none;
-  background: #f7f9fb;
+  color: #1f2937; /* Dark slate text */
 }
 
-.add-medication-form input:focus,
-.add-medication-form select:focus,
-.add-medication-form textarea:focus {
-  border-color: #0047ab;
-  background: #f0f6ff;
+.med-form input::placeholder,
+.med-form textarea::placeholder {
+  color: #a3b1c2; /* Soft placeholder color */
+  font-style: italic;
 }
 
-.add-medication-form textarea {
-  min-height: 70px;
+.med-form input:focus,
+.med-form select:focus,
+.med-form textarea:focus {
+  border-color: #6bbafd; /* bright blue highlight */
+  background: #eef6fd;
+}
+
+.med-form textarea {
   resize: vertical;
+  min-height: 48px;
+  line-height: 1.4;
 }
 
-.form-row {
+.med-form .form-row {
   display: flex;
-  gap: 1.1rem;
+  flex-direction: row;
+  gap: 14px;
 }
 
-.form-row > .form-group {
+.med-form .form-row > div {
   flex: 1;
 }
 
-.add-medication-btn {
-  background: #ccff00;
-  color: #0047ab;
+.med-form .unit-select {
+  margin-top: 0;
+}
+
+.divider {
+  height: 1.5px;
+  background: #d1e2f9; /* pale blue divider */
+  margin: 20px 0 12px 0;
+  border-radius: 2px;
+}
+
+.add-btn {
+  background: #ebfc2e; /* bright yellow */
+  color: #183143; /* dark teal */
   border: none;
-  padding: 1.1rem 0;
-  border-radius: 999px;
-  font-size: 1.15rem;
+  border-radius: 8px;
+  padding: 14px 0;
   font-weight: 700;
-  margin-top: 1.2rem;
-  box-shadow: 0 3px 16px rgba(0, 71, 171, 0.10);
+  font-size: 1.12rem;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  letter-spacing: 0.5px;
+  box-shadow: 0 3px 7px #cde1fe44;
+  transition: background 0.18s ease, color 0.18s ease;
+  user-select: none;
 }
 
-.add-medication-btn:hover {
-  background: #0047ab;
-  color: #fff;
+.add-btn:hover,
+.add-btn:focus {
+  background: #d1fd72; /* lighter yellow */
+  color: #6d4a09;
+  outline: none;
 }
 
-.form-error {
-  color: #c62828;
-  background: #ffeaea;
-  border-radius: 7px;
-  padding: 0.7rem 1.2rem;
-  font-size: 1.08rem;
+.status-msg {
+  font-size: 1rem;
   text-align: center;
+  color: #d63031; /* mild red for errors or status */
+  min-height: 22px;
+  margin: 0;
 }
 
-.form-success {
-  color: #388e3c;
-  background: #eaffea;
-  border-radius: 7px;
-  padding: 0.7rem 1.2rem;
-  font-size: 1.08rem;
-  text-align: center;
+/* Style for the informational paragraph for In-App Reminder */
+.med-form p {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: #555b6e; /* medium gray-blue */
+  font-style: italic;
 }
 
+/* Align dosage and unit fields on the same baseline */
+.form-row.dose-unit-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end; /* aligns inputs at bottom */
+  gap: 16px;
+}
+
+.dose-field,
+.unit-field {
+  flex: 1;
+}
+
+/* Make select and input heights consistent */
+.dose-unit-row input,
+.dose-unit-row select {
+  min-height: 38px;
+}
+
+/* Responsive tweaks */
 @media (max-width: 600px) {
-  .add-medication-card {
-    padding: 1.2rem 0.5rem;
+  .med-form {
+    padding: 24px 18px 24px 18px;
+    max-width: 100%;
+    border-radius: 12px;
   }
-  .form-row {
+
+  .med-form .form-row {
     flex-direction: column;
-    gap: 0.3rem;
   }
 }

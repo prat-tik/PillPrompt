@@ -7,6 +7,7 @@ import MedicationForm from '../components/MedicationForm';
 import ReminderForm from '../components/ReminderForm';
 import DoseLogForm from '../components/DoseLogForm';
 
+
 // Example mock data
 const initialData = {
   user: {
@@ -22,9 +23,12 @@ const initialData = {
     { id: 2, time: "8:00 PM", method: "App Notification" },
   ],
 };
+
 export default function Dashboard() {
   const [data, setData] = useState(initialData);
   const navigate = useNavigate();
+  const [showAdd, setShowAdd] = useState(false);
+  const [currentMedication, setCurrentMedication] = useState({});
 
   // Handlers for adding new items (simulate backend updates)
   const handleAddMedication = (med) => {
@@ -41,6 +45,10 @@ export default function Dashboard() {
     }));
   };
 
+  const handleShowAdd = (med) => {
+    setCurrentMedication(med);
+    setShowAdd(true);
+  }
   // You can add similar handlers for DoseLogForm if needed
   useEffect(() => {
     API.get('/dashboard').then(res => setData(res.data));
@@ -62,10 +70,40 @@ export default function Dashboard() {
           <h2 className="text-xl font-semibold mb-3 text-blue-800">Your Medications</h2>
           {data.medications.map(med => (
             <div key={med.id} className="border-b py-2">
-              <strong>{med.name}</strong> — {med.dosage} ({med.schedule})
+              <strong>{med.medicine}</strong> — {med.dosage} ({med.schedule})
+
+              <button
+                className="addmedications-btn"
+                onClick={() => handleShowAdd(med)}
+              >
+                Add reminder
+              </button>
             </div>
           ))}
         </div>
+
+        {showAdd &&
+          <div
+            // onClick={() => setShowAdd(false)}
+            style={{
+              position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
+              background: 'rgba(0,0,0,0.4)', display: 'flex',
+              justifyContent: 'center', alignItems: 'center', zIndex: 1000,
+            }}>
+            <div onClick={(e) => e.stopPropagation()}>
+              <ReminderForm medication={currentMedication} onClose={setShowAdd}/>
+
+            </div>
+            {/* <button
+              className="absolute top-4 right-4 text-white bg-red-500 px-3 py-1 rounded"
+              onClick={() => setShowAdd(false)}
+            >
+              Close
+            </button> */}
+
+          </div>
+        }
+
 
         {/* Reminders */}
         <div className="bg-white rounded-2xl shadow-lg p-6">
@@ -73,8 +111,7 @@ export default function Dashboard() {
           {data.reminders.map(rem => (
             <div key={rem.id} className="border-b py-2">
               {rem.time} via {rem.method}
-            </div>
-          ))}
+              </div>))} 
         </div>
       </div>
 

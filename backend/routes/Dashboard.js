@@ -14,13 +14,13 @@ router.get('/', auth, async (req, res) => {
     photo: req.user.photo
   };
   const [medications] = await pool.query(
-    'SELECT id, name, dosage FROM medications WHERE user_id = ?', [userId]
+    'SELECT id, name, medicine, sex, unit, dosage FROM medications WHERE user_id = ?', [userId]
   );
   const [reminders] = await pool.query(
-    'SELECT r.id, r.time, r.method, m.name AS medication_name FROM reminders r JOIN medications m ON r.medication_id = m.id WHERE r.user_id = ?', [userId]
+    'SELECT r.id, r.time, r.method, r.status, m.name,r.medication_id AS medication_name FROM reminders r JOIN medications m ON r.medication_id = m.id WHERE r.user_id = ?', [userId]
   );
   const [doseLogs] = await pool.query(
-    'SELECT d.id, d.taken_at, m.name AS medication_name FROM dose_logs d JOIN medications m ON d.medication_id = m.id WHERE d.user_id = ? ORDER BY d.taken_at DESC LIMIT 10', [userId]
+    'SELECT d.id, d.taken_at, d.status, m.name AS medication_name FROM dose_logs d JOIN medications m ON d.medication_id = m.id WHERE d.user_id = ? ORDER BY d.taken_at DESC LIMIT 10', [userId]
   );
 
   res.json({
