@@ -55,11 +55,11 @@ export default function ReminderForm({ medication, onClose }) {
   };
 
   return (
-    <div className="add-remindreminder-form relative bg-white p-4 rounded shadow-md flex w-full max-w-4xl mx-autoer-form">
+    <div className="add-reminder-form relative bg-white p-4 rounded">
       <h2 className="text-2xl font-semibold mb-4">Add Reminder</h2>
       <p className="mb-4">Medication: <strong>{medication ? medication.medicine : "No Name"}</strong></p>
 
-      <form onSubmit={handleSubmit} className="flex flex-wrap gap-4 items-end">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full">
         <div className="form-group flex-grow">
           <label htmlFor="time">Time</label>
           <input

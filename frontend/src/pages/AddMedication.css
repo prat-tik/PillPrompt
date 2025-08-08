@@ -20,13 +20,14 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.med-form h2,
+.med-form h1,
 .med-form h4 {
   color: #154d89; /* Deep mild blue */
-  font-weight: 600;
+  font-weight: bold;
   margin-bottom: 6px;
   text-align: center;
   letter-spacing: 0.5px;
+  font-size: x-large;
 }
 
 .med-form label {
@@ -90,7 +91,7 @@
 }
 
 .add-btn {
-  background: #ebfc2e; /* bright yellow */
+  background: #ccff00; /* bright yellow */
   color: #183143; /* dark teal */
   border: none;
   border-radius: 8px;

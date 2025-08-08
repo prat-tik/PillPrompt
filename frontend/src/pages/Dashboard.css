@@ -3,10 +3,10 @@
   margin: 3rem auto 0 auto;
   background: #fff;
   border-radius: 24px;
-  box-shadow: 0 4px 24px rgba(0,71,171,0.09);
+  box-shadow: 0 4px 24px rgba(0, 71, 171, 0.09);
   padding: 2.5rem 2rem;
   font-family: 'Inter', Arial, sans-serif;
-    position: relative;
+  position: relative;
 }
 
 .user-info {
@@ -21,7 +21,7 @@
   height: 90px;
   border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 2px 8px rgba(0,71,171,0.10);
+  box-shadow: 0 2px 8px rgba(0, 71, 171, 0.10);
   border: 3px solid #ccff00;
   background: #f7f9fb;
 }
@@ -53,9 +53,12 @@
   transition: background 0.2s, color 0.2s;
   box-shadow: 0 3px 16px rgba(0, 71, 171, 0.10);
 }
+
 .add-medications-btn:hover {
   background: #0047ab;
   color: #fff;
+  box-shadow: 0 4px 20px rgba(0, 71, 171, 0.15);
+
 }
 
 .dashboard-section {
@@ -69,7 +72,8 @@
   font-weight: 600;
 }
 
-.reminder-list, .activity-list {
+.reminder-list,
+.activity-list {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -91,6 +95,7 @@
   color: #388e3c;
   font-weight: 600;
 }
+
 .reminder-item.pending .reminder-status {
   color: #c62828;
   font-weight: 600;
@@ -117,6 +122,7 @@
   border-bottom: 1px solid #e0e0e0;
   font-size: 1rem;
 }
+
 .activity-list li:last-child {
   border-bottom: none;
 }
@@ -125,11 +131,13 @@
   .dashboard-container {
     padding: 1rem 0.5rem;
   }
+
   .user-info {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
   }
+
   .user-photo {
     margin-bottom: 0.5rem;
   }

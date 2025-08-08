@@ -81,9 +81,9 @@ export default function MedicationForm() {
   return (
     <div className="med-form-bg">
       <form className="med-form" onSubmit={handleSubmit}>
-        <h2>Add Medication</h2>
+        <h1>Add Medication</h1>
 
-        <label>name *</label>
+        <label>Name *</label>
         <input
           name="name"
           required

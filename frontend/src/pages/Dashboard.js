@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../api';
+import './Dashboard.css'; // Import your CSS styles
 
 // Import your form components as before
 import MedicationForm from '../components/MedicationForm';
@@ -73,7 +74,7 @@ export default function Dashboard() {
               <strong>{med.medicine}</strong> — {med.dosage} ({med.schedule})
 
               <button
-                className="addmedications-btn"
+                className="add-medications-btn"
                 onClick={() => handleShowAdd(med)}
               >
                 Add reminder
@@ -123,7 +124,7 @@ export default function Dashboard() {
       </div>
 
       <button
-        className="addmedications-btn"
+        className="add-medications-btn"
         onClick={() => navigate('/addmedication')}
       >
         Add Your Medications
