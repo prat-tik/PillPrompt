@@ -5,12 +5,12 @@ import API from '../api';
 
 export default function MedicationForm() {
   const initialState = {
-    name: "user",
-    sex: "Female",
-    medicine: "sinex",
-    dosage: "454",
-    unit: "mg",
-    time: "3:45",
+    name: "",
+    sex: "",
+    medicine: "",
+    dosage: "",
+    unit: "",
+    time: "",
     frequency: "Once daily",
     notes: "",
     // reminderMethod: "email",
@@ -98,7 +98,7 @@ export default function MedicationForm() {
           <option value="Others">Others</option>
         </select>
 
-        <label>medicine *</label>
+        <label>Medicine *</label>
         <input
           name="medicine"
           required
@@ -126,14 +126,14 @@ export default function MedicationForm() {
           </div>
         </div>
 
-        <label>Time to Take *</label>
+        {/* <label>Time to Take *</label>
         <input
           name="time"
           type="time"
           required
           value={form.time}
           onChange={handleChange}
-        />
+        /> */}
 
         <label>Frequency *</label>
         <select name="frequency" value={form.frequency} onChange={handleChange}>

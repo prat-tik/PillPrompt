@@ -39,14 +39,14 @@ cron.schedule('10 * * * * *', async () => {
   try {
     // Fetch reminders due within the last 2 minutes (adjust condition as needed)
     const [rows] = await pool.query(
-      `SELECT r.*, u.email, m.medicine 
+      `SELECT r.*, u.email,u.name, m.medicine 
        FROM reminders r 
        JOIN users u ON r.user_id = u.id 
        JOIN medications m ON r.medication_id = m.id 
        WHERE r.method = 'Email' 
-         AND NOW() >= r.time 
-         AND NOW() < DATE_ADD(r.time, INTERVAL 2 MINUTE)`
+         AND NOW() >= r.time AND NOW() < DATE_ADD(r.time, INTERVAL 2 MINUTE)`
     );
+    //  AND NOW() < DATE_ADD(r.time, INTERVAL 2 MINUTE)
 
     // rows should now be an array of reminder objects
     // If your DB client returns directly as an array, remove the [rows] part above
@@ -65,8 +65,14 @@ cron.schedule('10 * * * * *', async () => {
           `Hi ${rem.name}, this is a reminder to take your medication: ${rem.medicine} at ${rem.time}`
         );
 
+        // console.log(
+        //   rem.email,
+        //   'Medication Reminder',
+        //   `Hi ${rem.name}, this is a reminder to take your medication: ${rem.medicine} at ${rem.time}`
+        // );
+
         // Update reminder status to 'Sent'
-        await pool.query("UPDATE reminders SET status='Sent' WHERE id=?", [rem.id]);
+        // await pool.query("UPDATE reminders SET status='Sent' WHERE id=?", [rem.id]);
 
         console.log(`Reminder sent to: ${rem.email} for medication: ${rem.medicine}`);
 

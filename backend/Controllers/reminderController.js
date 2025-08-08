@@ -70,6 +70,7 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
   try {
+    console.log(req.params.id, req.user.id);
     const [result] = await pool.query('DELETE FROM reminders WHERE id = ? AND user_id = ?', [req.params.id, req.user.id]);
     if (result.affectedRows === 0) return res.status(404).json({ message: 'Reminder not found' });
     res.json({ message: 'Reminder deleted' });

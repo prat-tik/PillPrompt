@@ -55,7 +55,7 @@ export default function ReminderForm({ medication, onClose }) {
   };
 
   return (
-    <div className="add-reminder-form relative bg-white p-4 rounded">
+    <div className="add-reminder-form">
       <h2 className="text-2xl font-semibold mb-4">Add Reminder</h2>
       <p className="mb-4">Medication: <strong>{medication ? medication.medicine : "No Name"}</strong></p>
 

@@ -31,6 +31,60 @@ export default function Dashboard() {
   const [showAdd, setShowAdd] = useState(false);
   const [currentMedication, setCurrentMedication] = useState({});
 
+  const [deletingId, setDeletingId] = useState(null);
+
+  // Handler to delete a reminder by id
+  const handleReminderDelete = async (id) => {
+    // Confirmation before deleting
+    const confirmed = window.confirm("Are you sure you want to delete this reminder?");
+    if (!confirmed) return;
+
+    // setDeletingId(id);
+    try {
+      const response = await API.delete(`/reminders/${id}`);
+
+      if (response.status !== 200 && response.status !== 204) {
+        throw new Error(`Failed to delete reminder with id ${id}`);
+      }
+
+      alert('Reminder deleted successfully.');
+      // setDeletingId(null);
+      // reload window
+      window.location.reload();
+
+
+      // Optionally notify parent component to refresh data
+      // if (onDeleteSuccess) onDeleteSuccess(id);
+    } catch (error) {
+      alert(`Error deleting reminder: ${error.message}`);
+      setDeletingId(null);
+    }
+  };
+
+  // Function to delete medication by id
+  const deleteMedication = async (id) => {
+    const confirmed = window.confirm('Are you sure you want to delete this medication?');
+    if (!confirmed) return;
+
+    // setDeletingId(id);
+    try {
+      const response = await API.delete(`/medications/${id}`);
+
+      if (response.status !== 200 && response.status !== 204) {
+        throw new Error(`Failed to delete medication with id ${id}`);
+      }
+
+      alert('Medication deleted successfully.');
+      // setDeletingId(null);
+
+      // Notify parent or refresh data if needed
+      // if (onDeleteSuccess) onDeleteSuccess(id);
+    } catch (error) {
+      alert(`Error deleting medication: ${error.message}`);
+      setDeletingId(null);
+    }
+  };
+
   // Handlers for adding new items (simulate backend updates)
   const handleAddMedication = (med) => {
     setData(prev => ({
@@ -69,18 +123,46 @@ export default function Dashboard() {
         {/* Medications */}
         <div className="bg-white rounded-2xl shadow-lg p-6">
           <h2 className="text-xl font-semibold mb-3 text-blue-800">Your Medications</h2>
-          {data.medications.map(med => (
-            <div key={med.id} className="border-b py-2">
-              <strong>{med.medicine}</strong> — {med.dosage} ({med.schedule})
 
-              <button
-                className="add-medications-btn"
-                onClick={() => handleShowAdd(med)}
-              >
-                Add reminder
-              </button>
-            </div>
-          ))}
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-blue-100 text-left">
+                <th className="p-2 border-b border-gray-300">Medicine</th>
+                <th className="p-2 border-b border-gray-300">Dosage</th>
+                {/* <th className="p-2 border-b border-gray-300">Schedule</th>
+                <th className="p-2 border-b border-gray-300">Time</th>
+                <th className="p-2 border-b border-gray-300">Frequency</th> */}
+                <th className="p-2 border-b border-gray-300">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.medications.map(med => (
+                <tr key={med.id} className="hover:bg-gray-50">
+                  <td className="p-2 border-b border-gray-200 font-semibold">{med.medicine}</td>
+                  <td className="p-2 border-b border-gray-200">{med.dosage || 'N/A'}</td>
+                  {/* <td className="p-2 border-b border-gray-200">{med.schedule || med.frequency || 'N/A'}</td>
+                  <td className="p-2 border-b border-gray-200">{med.time || 'N/A'}</td>
+                  <td className="p-2 border-b border-gray-200">{med.frequency || 'N/A'}</td> */}
+                  <td className="p-2 border-b border-gray-200 space-x-2">
+                    <button
+                      className="bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded"
+                      onClick={() => handleShowAdd(med)}
+                    >
+                      Add reminder
+                    </button>
+
+                    <button
+                      className="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded"
+                      onClick={() => deleteMedication(med.id)}
+                      disabled={deletingId === med.id}
+                    >
+                      {deletingId === med.id ? 'Deleting...' : 'Delete'}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
 
         {showAdd &&
@@ -92,7 +174,7 @@ export default function Dashboard() {
               justifyContent: 'center', alignItems: 'center', zIndex: 1000,
             }}>
             <div onClick={(e) => e.stopPropagation()}>
-              <ReminderForm medication={currentMedication} onClose={setShowAdd}/>
+              <ReminderForm medication={currentMedication} onClose={setShowAdd} />
 
             </div>
             {/* <button
@@ -107,12 +189,51 @@ export default function Dashboard() {
 
 
         {/* Reminders */}
-        <div className="bg-white rounded-2xl shadow-lg p-6">
-          <h2 className="text-xl font-semibold mb-3 text-blue-800">Upcoming Reminders</h2>
+        {/* <div className="bg-white rounded-2xl shadow-lg p-6">
+          <h2 className="text-xl font-semibold mb-3 text-blue-800">Your Reminders</h2>
           {data.reminders.map(rem => (
             <div key={rem.id} className="border-b py-2">
               {rem.time} via {rem.method}
               </div>))} 
+        </div> */}
+
+        <div className="bg-white rounded-2xl shadow-lg p-6 max-h-[50vh] overflow-y-auto">
+          <h2 className="text-xl font-semibold mb-3 text-blue-800">Your Reminders</h2>
+
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-blue-100 text-left">
+                {/* <th className="p-2 border-b border-gray-300">ID</th> */}
+                {/* <th className="p-2 border-b border-gray-300">User ID</th> */}
+                {/* <th className="p-2 border-b border-gray-300">Medication ID</th> */}
+                <th className="p-2 border-b border-gray-300">Method</th>
+                {/* <th className="p-2 border-b border-gray-300">Status</th> */}
+                <th className="p-2 border-b border-gray-300">Time</th>
+                <th className="p-2 border-b border-gray-300">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="">
+              {data.reminders.map((rem) => (
+                <tr key={rem.id} className="hover:bg-gray-50">
+                  {/* <td className="p-2 border-b border-gray-200">{rem.id}</td> */}
+                  {/* <td className="p-2 border-b border-gray-200">{rem.user_id}</td> */}
+                  {/* <td className="p-2 border-b border-gray-200">{rem.medication_id}</td> */}
+                  <td className="p-2 border-b border-gray-200">{rem.method}</td>
+                  {/* <td className="p-2 border-b border-gray-200">{rem.status || 'N/A'}</td> */}
+                  <td className="p-2 border-b border-gray-200">{rem.time || 'N/A'}</td>
+                  <td className="p-2 border-b border-gray-200">
+                    <button
+                      onClick={() => handleReminderDelete(rem.id)}
+                      disabled={deletingId === rem.id}
+                      className="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded"
+                    >
+                      {deletingId === rem.id ? 'Deleting...' : 'Delete'}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
 
