@@ -16,7 +16,7 @@ CREATE TABLE medications (
   dosage VARCHAR(100) NOT NULL,
   unit varchar(20),
   notes varchar(50),
-  time varchar(50),
+  time time;
   frequency varchar(100),
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
@@ -25,7 +25,7 @@ CREATE TABLE reminders (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
   medication_id INT NOT NULL,
-  time VARCHAR(20) NOT NULL,
+  time time;
   method VARCHAR(20) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (medication_id) REFERENCES medications(id)
