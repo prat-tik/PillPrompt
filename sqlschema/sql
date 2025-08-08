@@ -27,6 +27,7 @@ CREATE TABLE reminders (
   medication_id INT NOT NULL,
   time time;
   method VARCHAR(20) NOT NULL,
+  status VARCHAR(20);,
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (medication_id) REFERENCES medications(id)
 );

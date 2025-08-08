@@ -36,30 +36,48 @@ function sendReminderEmail(to, subject, text) {
 cron.schedule('10 * * * * *', async () => {
   console.log('Checking reminders...');
 
-  // Query your DB for due email reminders
-  const reminders = await pool.query(
-    // "SELECT r.*, u.email FROM reminders r JOIN users u ON r.user_id = u.id WHERE status='enabled' r.method='Email' AND r.time <= NOW()"
-    "SELECT r.*, u.email FROM reminders r JOIN users u ON r.user_id = u.id WHERE r.method = 'Email'  AND NOW() >= r.time  AND NOW() < DATE_ADD(r.time, INTERVAL 4 MINUTE)"
-  );
-  // console.log('Fetched reminders:', reminders);
-
-reminders.forEach(reminder => {
-  const rem = reminder[0]; // Assuming reminders is an array of arrays
-  // console.log('Processing reminder:', rem.email, rem.time);
-  console.log(rem)
-  if (rem.email) {                      // Only send if email exists and is not empty
-    sendReminderEmail(
-      rem.email,
-      'Medication Reminder',
-      `Hi, this is a reminder to take your medication at ${rem.time}`
+  try {
+    // Fetch reminders due within the last 2 minutes (adjust condition as needed)
+    const [rows] = await pool.query(
+      `SELECT r.*, u.email, m.medicine 
+       FROM reminders r 
+       JOIN users u ON r.user_id = u.id 
+       JOIN medications m ON r.medication_id = m.id 
+       WHERE r.method = 'Email' 
+         AND NOW() >= r.time 
+         AND NOW() < DATE_ADD(r.time, INTERVAL 2 MINUTE)`
     );
-    pool.query("UPDATE reminders SET status='Sent' WHERE id=?", [rem.id]);
-  } else {
-    console.warn(`Skipping reminder id ${rem.id} because email is missing.`);
+
+    // rows should now be an array of reminder objects
+    // If your DB client returns directly as an array, remove the [rows] part above
+
+    // Filter out any non-object or undefined items robustly
+    const cleanReminders = Array.isArray(rows) 
+      ? rows.filter(r => r && typeof r === 'object' && r.email && r.id)
+      : [];
+
+    for (const rem of cleanReminders) {
+      try {
+        // Send reminder email if email exists
+        await sendReminderEmail(
+          rem.email,
+          'Medication Reminder',
+          `Hi ${rem.name}, this is a reminder to take your medication: ${rem.medicine} at ${rem.time}`
+        );
+
+        // Update reminder status to 'Sent'
+        await pool.query("UPDATE reminders SET status='Sent' WHERE id=?", [rem.id]);
+
+        console.log(`Reminder sent to: ${rem.email} for medication: ${rem.medicine}`);
+
+      } catch (err) {
+        console.error(`Error sending or updating reminder for id: ${rem.id}`, err);
+      }
+    }
+  }
+  catch (err) {
+    console.error("Error querying or processing reminders:", err);
   }
 });
-console.log('Fetched reminders:', reminders);
 
-
-});
 console.log('Email reminder service started');
