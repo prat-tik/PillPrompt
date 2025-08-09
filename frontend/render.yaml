@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: pillprompt-backend
+    env: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8080
+      - key: DB_HOST
+        value: localhost
+      - key: DB_USER
+        value: db_user
+      - key: DB_PASSWORD
+        value: 079bei036
+      - key: DB_NAME
+        value: pillprompt_db
+      - key: JWT_SECRET
+        value: your_jwt_secret
+
+  - type: static
+    name: pillprompt-frontend
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: build
+    autoDeploy: true
