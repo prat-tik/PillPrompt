@@ -9,7 +9,7 @@ export default function MedicationForm() {
     sex: "Female",
     medicine: "",
     dosage: "",
-    unit: "",
+    unit: "mg",
     time: "",
     frequency: "Once daily",
     notes: "",
@@ -36,7 +36,8 @@ export default function MedicationForm() {
       !form.sex ||
       !form.medicine ||
       !form.dosage ||
-      !form.time
+      !form.time ||
+      !form.unit
     ) {
       setError('Please fill out all required fields.');
       return;
@@ -45,7 +46,8 @@ export default function MedicationForm() {
       name: form.name,
       sex: form.sex,
       medicine: form.medicine,
-      dosage: `${form.dosage} ${form.unit}`,
+      dosage: form.dosage,
+      unit:form.unit,
       time: form.time,
       frequency: form.frequency,
       notes: form.notes,

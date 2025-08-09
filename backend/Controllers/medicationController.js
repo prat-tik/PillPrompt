@@ -28,7 +28,7 @@ exports.create = async (req, res) => {
       notes
     } = req.body;
 
-    if (!name || !sex || !medicine || !dosage || !time) {
+    if (!name || !sex || !medicine || !dosage || !time || !unit) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
 

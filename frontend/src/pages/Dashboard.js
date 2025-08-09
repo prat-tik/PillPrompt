@@ -128,6 +128,7 @@ export default function Dashboard() {
               <tr className="bg-blue-100 text-left">
                 <th className="p-2 border-b border-gray-300">Medicine</th>
                 <th className="p-2 border-b border-gray-300">Dosage</th>
+                <th className="p-2 border-b border-gray-300">Unit</th>
                 <th className="p-2 border-b border-gray-300">Actions</th>
               </tr>
             </thead>
@@ -136,6 +137,7 @@ export default function Dashboard() {
                 <tr key={med.id} className="hover:bg-gray-50">
                   <td className="p-2 border-b border-gray-200 font-semibold">{med.medicine}</td>
                   <td className="p-2 border-b border-gray-200">{med.dosage || 'N/A'}</td>
+                  <td className="p-2 border-b border-gray-200">{med.unit || 'N/A'}</td>
                   <td className="p-2 border-b border-gray-200 space-x-2">
                     <button
                       className="bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded"
