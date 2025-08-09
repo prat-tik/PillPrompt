@@ -29,6 +29,7 @@ CREATE TABLE reminders (
   medication_id INT NOT NULL,
   time TIME,
   method VARCHAR(20) NOT NULL,
+  status VARCHAR(20);,
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (medication_id) REFERENCES medications(id)
 );
@@ -37,7 +38,6 @@ CREATE TABLE dose_logs (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
   medication_id INT NOT NULL,
-  taken_at DATETIME NOT NULL,
   status VARCHAR(20) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (medication_id) REFERENCES medications(id)

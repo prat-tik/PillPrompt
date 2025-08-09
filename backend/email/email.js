@@ -18,9 +18,9 @@ const transporter = nodemailer.createTransport({
 function sendReminderEmail(to, subject, text) {
   const mailOptions = {
     from: '"PillPrompt Reminder" <ghimiresampada1729@gmail.com>',
-    to: to,
-    subject: subject,
-    text: text,
+    to: to,           // Use the 'to' parameter passed to the function
+    subject: subject, // Use the 'subject' parameter
+    text: text        // Use the 'text' parameter
   };
 
   transporter.sendMail(mailOptions, (err, info) => {
@@ -31,41 +31,44 @@ function sendReminderEmail(to, subject, text) {
     }
   });
 }
-
-// ⏱ Cron job to run every minute at 10th second
 cron.schedule('10 * * * * *', async () => {
   console.log('Checking reminders...');
 
   try {
-    const [reminders] = await pool.query(
-      `SELECT r.*, u.email 
+    // Fetch reminders due within the last 2 minutes (adjust condition as needed)
+    const [rows] = await pool.query(
+      `SELECT r.*, u.email,u.name, m.medicine 
        FROM reminders r 
        JOIN users u ON r.user_id = u.id 
+       JOIN medications m ON r.medication_id = m.id 
        WHERE r.method = 'Email' 
-       AND NOW() >= r.time  
-       AND NOW() < DATE_ADD(r.time, INTERVAL 4 MINUTE)
-       AND r.status = 'enabled'`
+         AND NOW() >= r.time AND NOW() < DATE_ADD(r.time, INTERVAL 2 MINUTE)`
     );
+    const cleanReminders = Array.isArray(rows)
+      ? rows.filter(r => r && typeof r === 'object' && r.email && r.id)
+      : [];
 
-    reminders.forEach(async (reminder) => {
-      console.log('Processing reminder:', reminder);
-
-      if (reminder.email) {
-        sendReminderEmail(
-          reminder.email,
+    for (const rem of cleanReminders) {
+      try {
+        // Send reminder email if email exists
+        await sendReminderEmail(
+          rem.email,
           'Medication Reminder',
-          `Hi, this is a reminder to take your medication at ${reminder.time}`
+          `Hi ${rem.name}, this is a reminder to take your medication: ${rem.medicine} at ${rem.time}`
         );
 
-        await pool.query("UPDATE reminders SET status='Sent' WHERE id=?", [reminder.id]);
-      } else {
-        console.warn(`Skipping reminder id ${reminder.id} because email is missing.`);
-      }
-    });
+        // Update reminder status to 'Sent'
+        await pool.query("UPDATE reminders SET status='Sent' WHERE id=?", [rem.id]);
 
-    console.log('Fetched reminders:', reminders.length);
-  } catch (err) {
-    console.error('Error querying reminders:', err);
+        console.log(`Reminder sent to: ${rem.email} for medication: ${rem.medicine}`);
+
+      } catch (err) {
+        console.error(`Error sending or updating reminder for id: ${rem.id}`, err);
+      }
+    }
+  }
+  catch (err) {
+    console.error("Error querying or processing reminders:", err);
   }
 });
 

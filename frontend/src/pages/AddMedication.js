@@ -5,17 +5,14 @@ import API from '../api';
 
 export default function MedicationForm() {
   const initialState = {
-    name: "user",
+    name: "",
     sex: "Female",
-    medicine: "sinex",
-    dosage: "454",
+    medicine: "",
+    dosage: "",
     unit: "mg",
-    time: "3:45",
+    time: "",
     frequency: "Once daily",
     notes: "",
-    // reminderMethod: "email",
-    // email: "",
-    // phone: ""
   };
 
   const [form, setForm] = useState(initialState);
@@ -39,31 +36,21 @@ export default function MedicationForm() {
       !form.sex ||
       !form.medicine ||
       !form.dosage ||
-      !form.time
+      !form.time ||
+      !form.unit
     ) {
       setError('Please fill out all required fields.');
       return;
     }
-    // if (form.reminderMethod === 'email' && !form.email) {
-    //   setError('Please provide an email address.');
-    //   return;
-    // }
-    // if (form.reminderMethod === 'sms' && !form.phone) {
-    //   setError('Please provide a phone number.');
-    //   return;
-    // }
-
     const payload = {
       name: form.name,
       sex: form.sex,
       medicine: form.medicine,
-      dosage: `${form.dosage} ${form.unit}`,
+      dosage: form.dosage,
+      unit:form.unit,
       time: form.time,
       frequency: form.frequency,
       notes: form.notes,
-      // reminderMethod: form.reminderMethod,
-      // email: form.email,
-      // phone: form.phone
     };
 
     try {
@@ -98,7 +85,7 @@ export default function MedicationForm() {
           <option value="Others">Others</option>
         </select>
 
-        <label>medicine *</label>
+        <label>Medicine *</label>
         <input
           name="medicine"
           required
@@ -151,54 +138,6 @@ export default function MedicationForm() {
         />
 
         <div className="divider" />
-
-        {/* <h4>Add Reminder</h4>
-        <label>Reminder Method *</label>
-        <select
-          name="reminderMethod"
-          value={form.reminderMethod}
-          onChange={handleChange}
-          required
-        >
-          <option value="email">Email</option>
-          <option value="sms">SMS</option>
-          <option value="inAppReminder">In-App Reminder</option>
-        </select>
-
-        {/* Required fields for reminder, conditional */}
-        {/* {form.reminderMethod === "email" && (
-          <>
-            <label>Email Address *</label>
-            <input
-              name="email"
-              type="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="you@example.com"
-              required
-            />
-          </>
-        )}
-
-        {form.reminderMethod === "sms" && (
-          <>
-            <label>Phone Number *</label>
-            <input
-              name="phone"
-              type="tel"
-              value={form.phone}
-              onChange={handleChange}
-              placeholder="+1 234 567 8901"
-              required
-            />
-          </>
-        )}
-
-        {form.reminderMethod === "inAppReminder" && (
-          <p style={{ fontStyle: "italic", color: "#555", marginTop: "6px" }}>
-            In-app reminders will notify you directly within the application.
-          </p>
-        )} */} 
 
         {error && <div className="form-error">{error}</div>}
         {success && <div className="form-success">{success}</div>}

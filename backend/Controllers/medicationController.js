@@ -1,4 +1,3 @@
-//const reminderController = require('./reminderController');
 const pool = require('../utils/db');
 
 // Get all medications for logged-in user
@@ -25,11 +24,11 @@ exports.create = async (req, res) => {
       dosage,
       unit,
       time,
-      frequency, 
+      frequency,
       notes
     } = req.body;
 
-    if (!name || !sex || !medicine || !dosage || !time) {
+    if (!name || !sex || !medicine || !dosage || !time || !unit) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
 
@@ -40,11 +39,10 @@ exports.create = async (req, res) => {
       [req.user.id, name, sex, medicine, dosage, unit, time, frequency, notes]
     );
     console.log('New medication created with ID:', result.insertId);
-    //reminderController.create(req, res); // Call to create reminder if needed
 
     const [med] = await pool.query('SELECT * FROM medications WHERE id = ?', [result.insertId]);
     res.status(201).json(med[0]);
-  }  
+  }
   catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error' });
