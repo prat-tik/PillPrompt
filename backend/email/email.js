@@ -9,15 +9,15 @@ const transporter = nodemailer.createTransport({
   service: 'gmail',
   host: 'smtp.gmail.com',
   auth: {
-    user: 'ghimiresampada1729@gmail.com',
-    pass: 'nlch zmtp cbjn laqt', // App password, not regular Gmail password
+    user: 'pratikkhatiwada00@gmail.com',
+    pass: 'lfis cvsc hrah pfdt', // App password, not regular Gmail password
   },
 });
 
 // 📧 Function to send reminder email
 function sendReminderEmail(to, subject, text) {
   const mailOptions = {
-    from: '"PillPrompt Reminder" <ghimiresampada1729@gmail.com>',
+    from: '"PillPrompt Reminder" <pratikkhatiwada00@gmail.com>',
     to: to,           // Use the 'to' parameter passed to the function
     subject: subject, // Use the 'subject' parameter
     text: text        // Use the 'text' parameter
