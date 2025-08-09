@@ -1,4 +1,6 @@
-Create database pillprompt_db;
+CREATE DATABASE IF NOT EXISTS pillprompt_db;
+USE pillprompt_db;
+
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
@@ -11,13 +13,13 @@ CREATE TABLE medications (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
   name VARCHAR(100) NOT NULL,
-  sex varchar(50),
-  medicine varchar(100),
+  sex VARCHAR(50),
+  medicine VARCHAR(100),
   dosage VARCHAR(100) NOT NULL,
-  unit varchar(20),
-  notes varchar(50),
-  time time;
-  frequency varchar(100),
+  unit VARCHAR(20),
+  notes VARCHAR(50),
+  time TIME,
+  frequency VARCHAR(100),
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
@@ -25,7 +27,7 @@ CREATE TABLE reminders (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
   medication_id INT NOT NULL,
-  time time;
+  time TIME,
   method VARCHAR(20) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (medication_id) REFERENCES medications(id)

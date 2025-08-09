@@ -6,6 +6,8 @@ const medicationRoutes = require('./routes/medications');
 const reminderRoutes = require('./routes/reminders');
 const doseRoutes = require('./routes/doses');
 const dashboardRoutes = require('./routes/dashboard');
+const pool = require('./utils/db'); // add this import
+
 const app = express();
 
 app.use(cors());
@@ -18,6 +20,17 @@ app.use('/api/reminders', reminderRoutes);
 app.use('/api/doses', doseRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 
+// Test DB connection route
+app.get('/test-db', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM users');
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Database error' });
+  }
+});
+
 // Basic error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -25,4 +38,3 @@ app.use((err, req, res, next) => {
 });
 
 module.exports = app;
-

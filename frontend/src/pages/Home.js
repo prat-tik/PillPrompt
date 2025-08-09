@@ -2,8 +2,6 @@ import React, { useRef } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import './Home.css';
 import logo from '../assets/folder/3ed35b72-0eba-4417-851e-10bc6388ba43.jpg';
-// import { useState } from 'react';
-// import { useEffect } from 'react';
 
 function Home() {
   // Ref for the How It Works section
@@ -35,7 +33,7 @@ function Home() {
             </NavLink>
           </li>
           <li>
-            {/* Use # and prevent default to scroll */}
+            {/* Scroll smoothly on click */}
             <a
               href="#how-it-works"
               onClick={handleHowItWorksClick}
@@ -78,13 +76,19 @@ function Home() {
         </p>
         <div className="hero-actions">
           <Link to="/register" className="btn-primary">Get Started Free</Link>
-          <Link to="/how-it-works" className="btn-outline">See How It Works</Link>
+          {/* Changed this Link to anchor with scroll handler */}
+          <a
+            href="#how-it-works"
+            onClick={handleHowItWorksClick}
+            className="btn-outline"
+            style={{ cursor: 'pointer', color: 'inherit', textDecoration: 'none' }}
+          >
+            See How It Works
+          </a>
         </div>
       </header>
 
-      <section
-        className="features-section"
-      >
+      <section className="features-section">
         <div className="feature-card">
           <span className="feature-icon">⏰</span>
           <h3>Smart Reminders</h3>
@@ -97,7 +101,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Add ref and id here */}
+      {/* How It Works section with ref */}
       <section
         className="how-it-works-section"
         id="how-it-works"
