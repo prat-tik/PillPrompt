@@ -1,5 +1,6 @@
 .med-form-bg {
-  background: #e7f2ff; /* Soft pale blue background */
+  background: #e7f2ff;
+  /* Soft pale blue background */
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -11,8 +12,10 @@
   background: #fff;
   padding: 32px 28px 28px 28px;
   border-radius: 16px;
-  box-shadow: 0 6px 28px #aac8ff36; /* Light shadow */
-  max-width: 540px; /* Wider form */
+  box-shadow: 0 6px 28px #aac8ff36;
+  /* Light shadow */
+  max-width: 540px;
+  /* Wider form */
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -22,7 +25,8 @@
 
 .med-form h1,
 .med-form h4 {
-  color: #154d89; /* Deep mild blue */
+  color: #154d89;
+  /* Deep mild blue */
   font-weight: bold;
   margin-bottom: 6px;
   text-align: center;
@@ -31,7 +35,8 @@
 }
 
 .med-form label {
-  color: #25567b; /* Medium blue-gray */
+  color: #25567b;
+  /* Medium blue-gray */
   font-size: 0.98rem;
   margin-bottom: 4px;
   font-weight: 500;
@@ -41,25 +46,29 @@
 .med-form select,
 .med-form textarea {
   font-size: 1rem;
-  border: 1.5px solid #d6e0f0; /* very light blue border */
+  border: 1.5px solid #d6e0f0;
+  /* very light blue border */
   border-radius: 7px;
   padding: 10px 12px;
   background: #f9fbff;
   transition: border-color 0.16s ease-in-out;
   outline: none;
-  color: #1f2937; /* Dark slate text */
+  color: #1f2937;
+  /* Dark slate text */
 }
 
 .med-form input::placeholder,
 .med-form textarea::placeholder {
-  color: #a3b1c2; /* Soft placeholder color */
+  color: #a3b1c2;
+  /* Soft placeholder color */
   font-style: italic;
 }
 
 .med-form input:focus,
 .med-form select:focus,
 .med-form textarea:focus {
-  border-color: #6bbafd; /* bright blue highlight */
+  border-color: #6bbafd;
+  /* bright blue highlight */
   background: #eef6fd;
 }
 
@@ -75,7 +84,7 @@
   gap: 14px;
 }
 
-.med-form .form-row > div {
+.med-form .form-row>div {
   flex: 1;
 }
 
@@ -85,14 +94,17 @@
 
 .divider {
   height: 1.5px;
-  background: #d1e2f9; /* pale blue divider */
+  background: #d1e2f9;
+  /* pale blue divider */
   margin: 20px 0 12px 0;
   border-radius: 2px;
 }
 
 .add-btn {
-  background: #ccff00; /* bright yellow */
-  color: #183143; /* dark teal */
+  background: #ccff00;
+  /* bright yellow */
+  color: #183143;
+  /* dark teal */
   border: none;
   border-radius: 8px;
   padding: 14px 0;
@@ -107,7 +119,8 @@
 
 .add-btn:hover,
 .add-btn:focus {
-  background: #d1fd72; /* lighter yellow */
+  background: #d1fd72;
+  /* lighter yellow */
   color: #6d4a09;
   outline: none;
 }
@@ -115,7 +128,8 @@
 .status-msg {
   font-size: 1rem;
   text-align: center;
-  color: #d63031; /* mild red for errors or status */
+  color: #d63031;
+  /* mild red for errors or status */
   min-height: 22px;
   margin: 0;
 }
@@ -124,7 +138,8 @@
 .med-form p {
   margin-top: 6px;
   font-size: 0.9rem;
-  color: #555b6e; /* medium gray-blue */
+  color: #555b6e;
+  /* medium gray-blue */
   font-style: italic;
 }
 
@@ -132,7 +147,8 @@
 .form-row.dose-unit-row {
   display: flex;
   flex-direction: row;
-  align-items: flex-end; /* aligns inputs at bottom */
+  align-items: flex-end;
+  /* aligns inputs at bottom */
   gap: 16px;
 }
 

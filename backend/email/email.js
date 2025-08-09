@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
 function sendReminderEmail(to, subject, text) {
   const mailOptions = {
     from: '"PillPrompt Reminder" <ghimiresampada1729@gmail.com>',
-    to:to,           // Use the 'to' parameter passed to the function
+    to: to,           // Use the 'to' parameter passed to the function
     subject: subject, // Use the 'subject' parameter
     text: text        // Use the 'text' parameter
   };
@@ -28,11 +28,6 @@ function sendReminderEmail(to, subject, text) {
     }
   });
 }
-
-
-// Scheduler that runs every minute to check reminders
-//const cron = require('node-cron');
-
 cron.schedule('10 * * * * *', async () => {
   console.log('Checking reminders...');
 
@@ -46,13 +41,7 @@ cron.schedule('10 * * * * *', async () => {
        WHERE r.method = 'Email' 
          AND NOW() >= r.time AND NOW() < DATE_ADD(r.time, INTERVAL 2 MINUTE)`
     );
-    //  AND NOW() < DATE_ADD(r.time, INTERVAL 2 MINUTE)
-
-    // rows should now be an array of reminder objects
-    // If your DB client returns directly as an array, remove the [rows] part above
-
-    // Filter out any non-object or undefined items robustly
-    const cleanReminders = Array.isArray(rows) 
+    const cleanReminders = Array.isArray(rows)
       ? rows.filter(r => r && typeof r === 'object' && r.email && r.id)
       : [];
 
@@ -65,14 +54,8 @@ cron.schedule('10 * * * * *', async () => {
           `Hi ${rem.name}, this is a reminder to take your medication: ${rem.medicine} at ${rem.time}`
         );
 
-        // console.log(
-        //   rem.email,
-        //   'Medication Reminder',
-        //   `Hi ${rem.name}, this is a reminder to take your medication: ${rem.medicine} at ${rem.time}`
-        // );
-
         // Update reminder status to 'Sent'
-        // await pool.query("UPDATE reminders SET status='Sent' WHERE id=?", [rem.id]);
+        await pool.query("UPDATE reminders SET status='Sent' WHERE id=?", [rem.id]);
 
         console.log(`Reminder sent to: ${rem.email} for medication: ${rem.medicine}`);
 

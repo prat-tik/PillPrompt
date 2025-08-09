@@ -6,7 +6,7 @@ export default function ReminderForm({ medication, onClose }) {
   const [form, setForm] = useState({
     time: '',
     method: '',
-    status: '',
+    status: 'Pending',
     email: '',  // New field for email when method=email
   });
   const [error, setError] = useState('');

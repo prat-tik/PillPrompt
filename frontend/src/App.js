@@ -6,12 +6,6 @@ import Dashboard from './pages/Dashboard';
 import AddMedication from './pages/AddMedication';
 import Features from './pages/Features';
 import Contact from './pages/Contact';
-// import Reminders from './pages/Reminders';
-
-
-
-
-// import Dashboard from './pages/Dashboard';
 
 function App() {
   return (
@@ -21,12 +15,8 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/addmedication" element={<AddMedication />} />
-        <Route path="/features" element={<Features />} />
-        <Route path="/contact" element={<Contact />} />
-      {/* <Route path="/reminders" element={<Reminders />} /> */}
-
-
-      {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+      <Route path="/features" element={<Features />} />
+      <Route path="/contact" element={<Contact />} />
 
     </Routes>
   );

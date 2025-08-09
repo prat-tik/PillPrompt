@@ -4,9 +4,9 @@ import API from '../api';
 import './Dashboard.css'; // Import your CSS styles
 
 // Import your form components as before
-import MedicationForm from '../components/MedicationForm';
+import MedicationForm from '../components/MedicationForm';//just an empty form
 import ReminderForm from '../components/ReminderForm';
-import DoseLogForm from '../components/DoseLogForm';
+import DoseLogForm from '../components/DoseLogForm';//just an empty form
 
 
 // Example mock data
@@ -104,7 +104,6 @@ export default function Dashboard() {
     setCurrentMedication(med);
     setShowAdd(true);
   }
-  // You can add similar handlers for DoseLogForm if needed
   useEffect(() => {
     API.get('/dashboard').then(res => setData(res.data));
   }, []);
@@ -129,9 +128,6 @@ export default function Dashboard() {
               <tr className="bg-blue-100 text-left">
                 <th className="p-2 border-b border-gray-300">Medicine</th>
                 <th className="p-2 border-b border-gray-300">Dosage</th>
-                {/* <th className="p-2 border-b border-gray-300">Schedule</th>
-                <th className="p-2 border-b border-gray-300">Time</th>
-                <th className="p-2 border-b border-gray-300">Frequency</th> */}
                 <th className="p-2 border-b border-gray-300">Actions</th>
               </tr>
             </thead>
@@ -140,9 +136,6 @@ export default function Dashboard() {
                 <tr key={med.id} className="hover:bg-gray-50">
                   <td className="p-2 border-b border-gray-200 font-semibold">{med.medicine}</td>
                   <td className="p-2 border-b border-gray-200">{med.dosage || 'N/A'}</td>
-                  {/* <td className="p-2 border-b border-gray-200">{med.schedule || med.frequency || 'N/A'}</td>
-                  <td className="p-2 border-b border-gray-200">{med.time || 'N/A'}</td>
-                  <td className="p-2 border-b border-gray-200">{med.frequency || 'N/A'}</td> */}
                   <td className="p-2 border-b border-gray-200 space-x-2">
                     <button
                       className="bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded"
@@ -177,25 +170,8 @@ export default function Dashboard() {
               <ReminderForm medication={currentMedication} onClose={setShowAdd} />
 
             </div>
-            {/* <button
-              className="absolute top-4 right-4 text-white bg-red-500 px-3 py-1 rounded"
-              onClick={() => setShowAdd(false)}
-            >
-              Close
-            </button> */}
-
           </div>
         }
-
-
-        {/* Reminders */}
-        {/* <div className="bg-white rounded-2xl shadow-lg p-6">
-          <h2 className="text-xl font-semibold mb-3 text-blue-800">Your Reminders</h2>
-          {data.reminders.map(rem => (
-            <div key={rem.id} className="border-b py-2">
-              {rem.time} via {rem.method}
-              </div>))} 
-        </div> */}
 
         <div className="bg-white rounded-2xl shadow-lg p-6 max-h-[50vh] overflow-y-auto">
           <h2 className="text-xl font-semibold mb-3 text-blue-800">Your Reminders</h2>
@@ -203,11 +179,8 @@ export default function Dashboard() {
           <table className="w-full border-collapse">
             <thead>
               <tr className="bg-blue-100 text-left">
-                {/* <th className="p-2 border-b border-gray-300">ID</th> */}
-                {/* <th className="p-2 border-b border-gray-300">User ID</th> */}
-                {/* <th className="p-2 border-b border-gray-300">Medication ID</th> */}
                 <th className="p-2 border-b border-gray-300">Method</th>
-                {/* <th className="p-2 border-b border-gray-300">Status</th> */}
+                <th className="p-2 border-b border-gray-300">Status</th>
                 <th className="p-2 border-b border-gray-300">Time</th>
                 <th className="p-2 border-b border-gray-300">Actions</th>
               </tr>
@@ -215,11 +188,8 @@ export default function Dashboard() {
             <tbody className="">
               {data.reminders.map((rem) => (
                 <tr key={rem.id} className="hover:bg-gray-50">
-                  {/* <td className="p-2 border-b border-gray-200">{rem.id}</td> */}
-                  {/* <td className="p-2 border-b border-gray-200">{rem.user_id}</td> */}
-                  {/* <td className="p-2 border-b border-gray-200">{rem.medication_id}</td> */}
                   <td className="p-2 border-b border-gray-200">{rem.method}</td>
-                  {/* <td className="p-2 border-b border-gray-200">{rem.status || 'N/A'}</td> */}
+                  <td className="p-2 border-b border-gray-200">{rem.status || 'Pending'}</td>
                   <td className="p-2 border-b border-gray-200">{rem.time || 'N/A'}</td>
                   <td className="p-2 border-b border-gray-200">
                     <button
@@ -239,9 +209,6 @@ export default function Dashboard() {
 
       {/* Forms Section */}
       <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* <MedicationForm onAdd={handleAddMedication} />
-        <ReminderForm meds={data.medications} onAdd={handleAddReminder} />
-        <DoseLogForm meds={data.medications} onAdd={() => {}} /> */}
       </div>
 
       <button

@@ -11,7 +11,7 @@ exports.getAll = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    
+
     const { medication_id, time, method, status } = req.body;
     if (!medication_id || !time) return res.status(400).json({ message: 'Missing fields' });
 
@@ -21,7 +21,7 @@ exports.create = async (req, res) => {
 
     const [result] = await pool.query(
       'INSERT INTO reminders (user_id, medication_id, time, method) VALUES (?, ?, ?, ?)',
-      [req.user.id, medication_id, time, method ,status|| 'Email']
+      [req.user.id, medication_id, time, method, status || 'Email']
     );
 
     const [reminder] = await pool.query('SELECT * FROM reminders WHERE id = ?', [result.insertId]);

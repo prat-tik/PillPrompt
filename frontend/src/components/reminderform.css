@@ -1,7 +1,8 @@
 .add-reminder-form {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem; /* Adds space between each input group */
+  gap: 1.2rem;
+  /* Adds space between each input group */
   padding: 2rem 3rem;
   background: white;
   border-radius: 20px;
@@ -18,6 +19,7 @@
   color: #0047ab;
   margin-bottom: 0.5rem;
 }
+
 .close-button {
   position: absolute;
   top: 10px;
