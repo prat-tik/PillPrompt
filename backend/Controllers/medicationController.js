@@ -25,7 +25,7 @@ exports.create = async (req, res) => {
       dosage,
       unit,
       time,
-      frequency, 
+      frequency,
       notes
     } = req.body;
 
@@ -44,7 +44,7 @@ exports.create = async (req, res) => {
 
     const [med] = await pool.query('SELECT * FROM medications WHERE id = ?', [result.insertId]);
     res.status(201).json(med[0]);
-  }  
+  }
   catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error' });

@@ -76,7 +76,7 @@ export default function Dashboard() {
 
       alert('Medication deleted successfully.');
       // setDeletingId(null);
-
+      window.location.reload();
       // Notify parent or refresh data if needed
       // if (onDeleteSuccess) onDeleteSuccess(id);
     } catch (error) {

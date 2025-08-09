@@ -6,7 +6,7 @@ import API from '../api';
 export default function MedicationForm() {
   const initialState = {
     name: "",
-    sex: "",
+    sex: "Female",
     medicine: "",
     dosage: "",
     unit: "",
@@ -126,14 +126,14 @@ export default function MedicationForm() {
           </div>
         </div>
 
-        {/* <label>Time to Take *</label>
+        <label>Time to Take *</label>
         <input
           name="time"
           type="time"
           required
           value={form.time}
           onChange={handleChange}
-        /> */}
+        />
 
         <label>Frequency *</label>
         <select name="frequency" value={form.frequency} onChange={handleChange}>

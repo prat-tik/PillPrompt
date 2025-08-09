@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
 function sendReminderEmail(to, subject, text) {
   const mailOptions = {
     from: '"PillPrompt Reminder" <ghimiresampada1729@gmail.com>',
-    to: "ghimiresampada086@gmail.com",           // Use the 'to' parameter passed to the function
+    to:to,           // Use the 'to' parameter passed to the function
     subject: subject, // Use the 'subject' parameter
     text: text        // Use the 'text' parameter
   };
