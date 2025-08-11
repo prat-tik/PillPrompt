@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';  // useNavigate for redirect after login
+import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 
 function Login() {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -19,8 +20,10 @@ function Login() {
       return;
     }
 
+    setLoading(true);
+
     try {
-const response = await fetch('https://pillprompt-1.onrender.com/api/auth/login', {
+      const response = await fetch('https://pillprompt-1.onrender.com/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: form.email, password: form.password }),
@@ -29,16 +32,16 @@ const response = await fetch('https://pillprompt-1.onrender.com/api/auth/login',
       const data = await response.json();
 
       if (response.ok && data.token) {
-        // Save token to localStorage
         localStorage.setItem('token', data.token);
-        // Redirect to dashboard or home page
-        navigate('/dashboard');  // Adjust route as needed
+        navigate('/dashboard');
       } else {
         setError(data.message || 'Login failed. Please try again.');
       }
     } catch (err) {
       setError('Server error. Please try again later.');
       console.error('Login error:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -46,6 +49,7 @@ const response = await fetch('https://pillprompt-1.onrender.com/api/auth/login',
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit} autoComplete="off">
         <h2>Login to PillPrompt</h2>
+
         <div className="form-group">
           <label htmlFor="email">Email Address</label>
           <input
@@ -58,6 +62,7 @@ const response = await fetch('https://pillprompt-1.onrender.com/api/auth/login',
             required
           />
         </div>
+
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
@@ -70,10 +75,13 @@ const response = await fetch('https://pillprompt-1.onrender.com/api/auth/login',
             required
           />
         </div>
+
         {error && <div className="form-error">{error}</div>}
-        <button className="btn-primary login-btn" type="submit">
-          Login
+
+        <button className="btn-primary login-btn" type="submit" disabled={loading}>
+          {loading ? 'Logging in...' : 'Login'}
         </button>
+
         <div className="login-bottom-text">
           Don&apos;t have an account?{' '}
           <Link to="/register" className="signup-link">

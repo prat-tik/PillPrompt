@@ -1,3 +1,4 @@
+// src/pages/Dashboard.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../api';
@@ -10,10 +11,29 @@ export default function Dashboard() {
     medications: [],
     reminders: []
   });
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const [showAdd, setShowAdd] = useState(false);
   const [currentMedication, setCurrentMedication] = useState({});
   const [deletingId, setDeletingId] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+
+    API.get('/dashboard')
+      .then(res => {
+        setData(res.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Dashboard fetch error:', err);
+        navigate('/login');
+      });
+  }, [navigate]);
 
   const handleReminderDelete = async (id) => {
     const confirmed = window.confirm("Are you sure you want to delete this reminder?");
@@ -52,15 +72,11 @@ export default function Dashboard() {
     setShowAdd(true);
   };
 
-  useEffect(() => {
-    API.get('/dashboard').then(res => setData(res.data));
-  }, []);
+  if (loading) return <p>Loading dashboard...</p>;
 
   return (
     <div className="dashboard-container">
-      <h1 className="welcome-header">
-        Welcome, {data.user.name}
-      </h1>
+      <h1 className="welcome-header">Welcome, {data.user.name}</h1>
       <p className="role-text">Role: {data.user.role}</p>
 
       <div className="content-grid">
@@ -84,10 +100,7 @@ export default function Dashboard() {
                     <td>{med.dosage || 'N/A'}</td>
                     <td>{med.unit || 'N/A'}</td>
                     <td>
-                      <button
-                        className="add-reminder-btn"
-                        onClick={() => handleShowAdd(med)}
-                      >
+                      <button className="add-reminder-btn" onClick={() => handleShowAdd(med)}>
                         Add reminder
                       </button>
                       <button
@@ -104,12 +117,8 @@ export default function Dashboard() {
             </table>
           </div>
 
-          {/* Add Medications Button BELOW card */}
           <div className="add-medication-btn-container">
-            <button
-              className="add-medication-btn"
-              onClick={() => navigate('/addmedication')}
-            >
+            <button className="add-medication-btn" onClick={() => navigate('/addmedication')}>
               Add Your Medications
             </button>
           </div>
