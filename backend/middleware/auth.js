@@ -2,9 +2,9 @@ const jwt = require('jsonwebtoken');
 const pool = require('../utils/db');
 
 module.exports = async (req, res, next) => {
-  // Allow public access to static files
   const publicPaths = ['/manifest.json', '/favicon.ico', '/logo192.png', '/logo512.png'];
-  if (publicPaths.includes(req.path)) {
+
+  if (publicPaths.some(path => req.path.startsWith(path))) {
     return next();
   }
 

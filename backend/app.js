@@ -13,8 +13,6 @@ const pool = require('./utils/db'); // MySQL pool
 
 const app = express();
 
-// ✅ Serve static files BEFORE any middleware
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware
 app.use(cors());
