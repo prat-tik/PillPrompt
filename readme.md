@@ -1,5 +1,5 @@
 
-# PillPrompt
+# PillPrompt:A Medicine Reminder System
 
 Full‑stack application for personal medication schedule, reminders, and adherence tracking.
 
@@ -9,7 +9,7 @@ Full‑stack application for personal medication schedule, reminders, and adhere
 - Sampada Ghimire
 
 ## Overview
-Enables users to register medications, set dosage schedules, receive reminders, record intake, and view adherence analytics. Secure role/auth layer prepared for future caregiver / admin roles.
+Enables users to register medications, set dosage schedules, receive reminders via email, record intake, and view adherence analytics. Secure role/auth layer prepared for future caregiver / admin roles.
 
 ## Demo Test User (Optional)
 - email: test@example.com  
@@ -17,7 +17,7 @@ Enables users to register medications, set dosage schedules, receive reminders, 
 
 ## Tech Stack
 **Frontend:** React, React Router, Tailwind CSS, Axios, React Toastify  
-**Backend:** Node.js, Express, PostgreSQL, JWT, bcrypt  
+**Backend:** Node.js, Express, MySql via Xampp, JWT, bcrypt  
 **Scheduling / Jobs:** node-cron (or equivalent)  
 **Auth:** JWT (access) + bcrypt hashing
 
@@ -46,7 +46,7 @@ Enables users to register medications, set dosage schedules, receive reminders, 
 
 ## Prerequisites
 - Node.js (LTS) + npm
-- PostgreSQL
+- MySql via Xampp
 - (Optional) SMTP credentials for email reminders
 - Modern browser
 
@@ -96,20 +96,18 @@ App: http://localhost:3000
 
 ### SQL Schema (sqlschema)
 Suggested:
-- `schema.sql` (tables: users, medications, schedules, doses, intake_logs, notifications)
-- `seed.sql` (sample meds + user)
+- `schema.sql` (tables: users, medications, schedules, dose_logs)
 Apply:
 ```
 psql -d your_db -f schema.sql
-psql -d your_db -f seed.sql
 ```
 
 ## Usage
-1. Open http://localhost:5173  
+1. Open http://localhost:3000  
 2. Register / Login  
 3. Add medication & define schedule  
 4. View upcoming doses  
-5. Mark doses taken or skipped  
+5. Mark email status sent or pending  
 6. Check adherence dashboard  
 
 ## Directory Structure
@@ -130,7 +128,6 @@ PillPrompt
 │   │   ├── components
 │   │   ├── pages
 │   │   ├── hooks
-│   │   ├── routes
 │   │   ├── App.jsx
 │   │   └── main.jsx
 │   ├── public
@@ -138,7 +135,6 @@ PillPrompt
 │   └── package.json
 ├── sqlschema
 │   ├── schema.sql
-│   └── seed.sql
 └── README.md
 ```
 
