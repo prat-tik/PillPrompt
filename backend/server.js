@@ -8,12 +8,12 @@ const mail = require('./email/email');
 
 const PORT = process.env.PORT || 5000; // Fallback for safety
 
-// ✅ CORS setup for Vercel + local dev
 const allowedOrigins = [
-  'http://localhost:3000',
-  'https://pill-prompt-1l73.vercel.app',               // ✅ live frontend
-  'https://pill-prompt-1l73-efc6bmcd6-pratiks-projects-1e4951dd.vercel.app' // ✅ optional preview domain
+  'https://pill-prompt-6yq6.vercel.app', // production
+  'https://pill-prompt-6yq6-qk2z75qil-pratiks-projects-1e4951dd.vercel.app', // preview
 ];
+
+
 
 app.use(cors({
   origin: (origin, callback) => {
