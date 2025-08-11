@@ -12,13 +12,13 @@ Full‑stack application for personal medication schedule, reminders, and adhere
 Enables users to register medications, set dosage schedules, receive reminders via email, record intake, and view adherence analytics. Secure role/auth layer prepared for future caregiver / admin roles.
 
 ## Demo Test User (Optional)
-- email: test@example.com  
-- password: testpassword  
+- email: p@p.com 
+- password: Pratik@123
 
 ## Tech Stack
-**Frontend:** React, React Router, Tailwind CSS, Axios, React Toastify  
+**Frontend:** React, React Router, Tailwind CSS, Axios, React  
 **Backend:** Node.js, Express, MySql via Xampp, JWT, bcrypt  
-**Scheduling / Jobs:** node-cron (or equivalent)  
+**Scheduling / Jobs:** node-cron  
 **Auth:** JWT (access) + bcrypt hashing
 
 ## Key Features
@@ -54,7 +54,7 @@ Enables users to register medications, set dosage schedules, receive reminders v
 
 ### Clone
 ```
-git clone https://github.com/yourusername/PillPrompt.git
+git clone https://github.com/prat-tik/PillPrompt
 cd PillPrompt
 ```
 
