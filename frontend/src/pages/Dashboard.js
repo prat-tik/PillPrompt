@@ -6,6 +6,8 @@ import './Dashboard.css';
 import ReminderForm from '../components/ReminderForm';
 
 export default function Dashboard() {
+  console.log("Dashboard component mounted");
+
   const [data, setData] = useState({
     user: { name: '', role: '' },
     medications: [],
@@ -19,14 +21,19 @@ export default function Dashboard() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    console.log("Token:", token);
+
     if (!token) {
+      console.warn("No token found, redirecting to login");
       navigate('/login');
       return;
     }
 
+    console.log("Fetching dashboard data...");
     API.get('/dashboard')
       .then(res => {
-        setData(res.data);
+        console.log("Dashboard data received:", res.data);
+        setData(res.data || {});
         setLoading(false);
       })
       .catch(err => {
@@ -77,7 +84,7 @@ export default function Dashboard() {
   };
 
   if (loading) return <p>Loading dashboard...</p>;
-  if (!data || !data.user) return <p>Error loading user data. Please try logging in again.</p>;
+  if (!data?.user) return <p>Error loading user data. Please try logging in again.</p>;
 
   return (
     <div className="dashboard-container">
@@ -89,7 +96,7 @@ export default function Dashboard() {
         <div>
           <div className="card">
             <h2 className="section-title">Your Medications</h2>
-            {data.medications.length === 0 ? (
+            {data.medications?.length === 0 ? (
               <p>No medications added yet.</p>
             ) : (
               <table>
@@ -142,7 +149,7 @@ export default function Dashboard() {
         {/* Reminders Section */}
         <div className="card">
           <h2 className="section-title">Your Reminders</h2>
-          {data.reminders.length === 0 ? (
+          {data.reminders?.length === 0 ? (
             <p>No reminders set.</p>
           ) : (
             <table>
@@ -177,7 +184,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {showAdd && (
+      {showAdd && currentMedication && (
         <div className="modal-overlay" onClick={() => setShowAdd(false)}>
           <div onClick={e => e.stopPropagation()}>
             <ReminderForm
