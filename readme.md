@@ -65,7 +65,7 @@ npm install
 ```
 Create `.env`:
 ```
-CONNECTION_STRING=postgresql://user:pass@host:5432/dbname
+CONNECTION_STRING=postgresql://user:pass@host:8080/dbname
 JWT_SECRET=your_jwt_secret
 PORT=3000
 EMAIL_HOST=smtp.example.com
@@ -92,7 +92,7 @@ Run:
 ```
 npm run dev
 ```
-App: http://localhost:5173
+App: http://localhost:3000
 
 ### SQL Schema (sqlschema)
 Suggested:
