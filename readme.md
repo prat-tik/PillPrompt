@@ -67,7 +67,7 @@ Create `.env`:
 ```
 CONNECTION_STRING=postgresql://user:pass@host:8080/dbname
 JWT_SECRET=your_jwt_secret
-PORT=3000
+PORT=8080
 EMAIL_HOST=smtp.example.com
 EMAIL_PORT=587
 EMAIL_USER=your_user
