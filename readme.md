@@ -1,12 +1,15 @@
-# PillPrompt
+
+# PillPrompt:A Medicine Reminder System
 
 Full‑stack application for personal medication schedule, reminders, and adherence tracking.
 
 ## Team
-- (Add names)
+- Pratik Khatiwada
+- Preeti Rijal
+- Sampada Ghimire
 
 ## Overview
-Enables users to register medications, set dosage schedules, receive reminders, record intake, and view adherence analytics. Secure role/auth layer prepared for future caregiver / admin roles.
+Enables users to register medications, set dosage schedules, receive reminders via email, record intake, and view adherence analytics. Secure role/auth layer prepared for future caregiver / admin roles.
 
 ## Demo Test User (Optional)
 - email: test@example.com  
@@ -14,17 +17,17 @@ Enables users to register medications, set dosage schedules, receive reminders, 
 
 ## Tech Stack
 **Frontend:** React, React Router, Tailwind CSS, Axios, React Toastify  
-**Backend:** Node.js, Express, PostgreSQL, JWT, bcrypt  
+**Backend:** Node.js, Express, MySql via Xampp, JWT, bcrypt  
 **Scheduling / Jobs:** node-cron (or equivalent)  
 **Auth:** JWT (access) + bcrypt hashing
 
 ## Key Features
 ### Medication Management
-- Add / edit / archive medications
+- Add / archive medications
 - Dosage, form, strength, instructions
 
 ### Scheduling & Reminders
-- Custom frequency (daily, interval, specific weekdays, times)
+- Custom frequency (Once a day,Inaccordance to time)
 - Upcoming dose list
 - (Pluggable) notification channels (email / push placeholder)
 
@@ -43,7 +46,7 @@ Enables users to register medications, set dosage schedules, receive reminders, 
 
 ## Prerequisites
 - Node.js (LTS) + npm
-- PostgreSQL
+- MySql via Xampp
 - (Optional) SMTP credentials for email reminders
 - Modern browser
 
@@ -62,9 +65,9 @@ npm install
 ```
 Create `.env`:
 ```
-CONNECTION_STRING=postgresql://user:pass@host:5432/dbname
+CONNECTION_STRING=postgresql://user:pass@host:8080/dbname
 JWT_SECRET=your_jwt_secret
-PORT=3000
+PORT=8080
 EMAIL_HOST=smtp.example.com
 EMAIL_PORT=587
 EMAIL_USER=your_user
@@ -89,24 +92,22 @@ Run:
 ```
 npm run dev
 ```
-App: http://localhost:5173
+App: http://localhost:3000
 
 ### SQL Schema (sqlschema)
 Suggested:
-- `schema.sql` (tables: users, medications, schedules, doses, intake_logs, notifications)
-- `seed.sql` (sample meds + user)
+- `schema.sql` (tables: users, medications, schedules, dose_logs)
 Apply:
 ```
 psql -d your_db -f schema.sql
-psql -d your_db -f seed.sql
 ```
 
 ## Usage
-1. Open http://localhost:5173  
+1. Open http://localhost:3000  
 2. Register / Login  
 3. Add medication & define schedule  
 4. View upcoming doses  
-5. Mark doses taken or skipped  
+5. Mark email status sent or pending  
 6. Check adherence dashboard  
 
 ## Directory Structure
@@ -127,7 +128,6 @@ PillPrompt
 │   │   ├── components
 │   │   ├── pages
 │   │   ├── hooks
-│   │   ├── routes
 │   │   ├── App.jsx
 │   │   └── main.jsx
 │   ├── public
@@ -135,7 +135,6 @@ PillPrompt
 │   └── package.json
 ├── sqlschema
 │   ├── schema.sql
-│   └── seed.sql
 └── README.md
 ```
 
