@@ -5,7 +5,7 @@ const userRoutes = require('./routes/users');
 const medicationRoutes = require('./routes/medications');
 const reminderRoutes = require('./routes/reminders');
 const doseRoutes = require('./routes/doses');
-const dashboardRoutes = require('./routes/dashboard');
+const dashboardRoutes = require('./routes/Dashboard');
 const pool = require('./utils/db'); // add this import
 
 const app = express();
