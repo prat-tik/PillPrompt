@@ -2,6 +2,12 @@ const jwt = require('jsonwebtoken');
 const pool = require('../utils/db');
 
 module.exports = async (req, res, next) => {
+  // Allow public access to static files
+  const publicPaths = ['/manifest.json', '/favicon.ico', '/logo192.png', '/logo512.png'];
+  if (publicPaths.includes(req.path)) {
+    return next();
+  }
+
   const authHeader = req.headers.authorization;
   if (!authHeader) return res.status(401).json({ message: 'No token provided' });
 
@@ -10,7 +16,10 @@ module.exports = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const [rows] = await pool.query('SELECT id, name, email, role FROM users WHERE id = ?', [decoded.id]);
+    const [rows] = await pool.query(
+      'SELECT id, name, email, role FROM users WHERE id = ?',
+      [decoded.id]
+    );
     if (rows.length === 0) return res.status(401).json({ message: 'User not found' });
 
     req.user = rows[0];
