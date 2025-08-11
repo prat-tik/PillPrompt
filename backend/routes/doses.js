@@ -7,8 +7,6 @@ router.post('/create', auth, doseController.create);
 router.put('/:id', auth, doseController.update);
 router.delete('/:id', auth, doseController.delete);
 // Existing
-router.post('/:id', auth, doseController.takeDose);
-router.post('/:id', auth, doseController.missDose);
-
-
+router.post('/:id/take', auth, doseController.takeDose);
+router.post('/:id/miss', auth, doseController.missDose);
 module.exports = router;

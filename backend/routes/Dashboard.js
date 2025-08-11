@@ -15,10 +15,7 @@ router.put('/:id', auth, doseController.update);
 // Delete a dose
 router.delete('/:id', auth, doseController.delete);
 
-// Take a dose
 router.post('/:id/take', auth, doseController.takeDose);
-
-// Miss a dose
 router.post('/:id/miss', auth, doseController.missDose);
 
 module.exports = router;
