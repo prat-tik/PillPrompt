@@ -73,11 +73,16 @@ export default function Dashboard() {
   };
 
   if (loading) return <p>Loading dashboard...</p>;
+  if (!data || !data.user) return <p>Error loading user data. Please try logging in again.</p>;
 
   return (
     <div className="dashboard-container">
-      <h1 className="welcome-header">Welcome, {data.user.name}</h1>
-      <p className="role-text">Role: {data.user.role}</p>
+      <h1 className="welcome-header">
+        Welcome, {data.user?.name || 'Guest'}
+      </h1>
+      <p className="role-text">
+        Role: {data.user?.role || 'N/A'}
+      </p>
 
       <div className="content-grid">
         {/* Medications Section */}
