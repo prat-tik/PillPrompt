@@ -3,9 +3,9 @@
 Full‑stack application for personal medication schedule, reminders, and adherence tracking.
 
 ## Team
-Pratik Khatiwada
-Preeti Rijal
-Sampada Ghimire
+-Pratik Khatiwada
+-Preeti Rijal
+-Sampada Ghimire
 
 ## Overview
 Enables users to register medications, set dosage schedules, receive reminders, record intake, and view adherence analytics. Secure role/auth layer prepared for future caregiver / admin roles.
