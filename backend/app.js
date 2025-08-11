@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path'); // ✅ Needed for static file pathing
 
 // Import route handlers
 const authRoutes = require('./routes/auth');
@@ -11,6 +12,9 @@ const dashboardRoutes = require('./routes/Dashboard');
 const pool = require('./utils/db'); // MySQL pool
 
 const app = express();
+
+// ✅ Serve static files BEFORE any middleware
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware
 app.use(cors());
