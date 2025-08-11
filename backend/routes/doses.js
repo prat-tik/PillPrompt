@@ -1,12 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
-const doseController = require('../Controllers/doseController');
+const doseController = require('../controllers/doseController');  // fix casing: controllers (lowercase)
+
+// Get all dose logs for user
 router.get('/', auth, doseController.getAll);
-router.post('/create', auth, doseController.create);
+
+// Create a new dose log
+router.post('/', auth, doseController.create);
+
+// Update dose log by ID
 router.put('/:id', auth, doseController.update);
+
+// Delete dose log by ID
 router.delete('/:id', auth, doseController.delete);
-// Existing
+
+// Mark dose as taken
 router.post('/:id/take', auth, doseController.takeDose);
+
+// Mark dose as missed
 router.post('/:id/miss', auth, doseController.missDose);
+
 module.exports = router;
