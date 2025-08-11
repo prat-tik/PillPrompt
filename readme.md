@@ -23,11 +23,11 @@ Enables users to register medications, set dosage schedules, receive reminders v
 
 ## Key Features
 ### Medication Management
-- Add / edit / archive medications
+- Add / archive medications
 - Dosage, form, strength, instructions
 
 ### Scheduling & Reminders
-- Custom frequency (daily, interval, specific weekdays, times)
+- Custom frequency (Once a day,Inaccordance to time)
 - Upcoming dose list
 - (Pluggable) notification channels (email / push placeholder)
 
