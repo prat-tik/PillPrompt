@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
-const doseController = require('../controllers/doseController');  // fix casing: controllers (lowercase)
+const doseController = require('../Controllers/doseController');  // fix casing: controllers (lowercase)
 
 // Get all dose logs for user
 router.get('/', auth, doseController.getAll);
