@@ -7,14 +7,14 @@ import ReminderForm from '../components/ReminderForm';
 
 export default function Dashboard() {
   const [data, setData] = useState({
-    user: { name: "", role: "" },
+    user: { name: '', role: '' },
     medications: [],
-    reminders: []
+    reminders: [],
   });
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const [showAdd, setShowAdd] = useState(false);
-  const [currentMedication, setCurrentMedication] = useState({});
+  const [currentMedication, setCurrentMedication] = useState(null);
   const [deletingId, setDeletingId] = useState(null);
 
   useEffect(() => {
@@ -30,41 +30,45 @@ export default function Dashboard() {
         setLoading(false);
       })
       .catch(err => {
-        console.error('Dashboard fetch error:', err);
+        console.error('Dashboard fetch error:', err.response?.data || err.message);
         navigate('/login');
       });
   }, [navigate]);
 
   const handleReminderDelete = async (id) => {
-    const confirmed = window.confirm("Are you sure you want to delete this reminder?");
+    const confirmed = window.confirm('Are you sure you want to delete this reminder?');
     if (!confirmed) return;
+
+    setDeletingId(id);
     try {
-      const response = await API.delete(`/reminders/${id}`);
-      if (response.status !== 200 && response.status !== 204) {
-        throw new Error(`Failed to delete reminder with id ${id}`);
-      }
+      await API.delete(`/reminders/${id}`);
       alert('Reminder deleted successfully.');
-      window.location.reload();
+      setData(prev => ({
+        ...prev,
+        reminders: prev.reminders.filter(rem => rem.id !== id),
+      }));
     } catch (error) {
-      alert(`Error deleting reminder: ${error.message}`);
-      setDeletingId(null);
+      alert(`Error deleting reminder: ${error.response?.data?.message || error.message}`);
     }
+    setDeletingId(null);
   };
 
   const deleteMedication = async (id) => {
     const confirmed = window.confirm('Are you sure you want to delete this medication?');
     if (!confirmed) return;
+
+    setDeletingId(id);
     try {
-      const response = await API.delete(`/medications/${id}`);
-      if (response.status !== 200 && response.status !== 204) {
-        throw new Error(`Failed to delete medication with id ${id}`);
-      }
+      await API.delete(`/medications/${id}`);
       alert('Medication deleted successfully.');
-      window.location.reload();
+      setData(prev => ({
+        ...prev,
+        medications: prev.medications.filter(med => med.id !== id),
+      }));
     } catch (error) {
-      alert(`Error deleting medication: ${error.message}`);
-      setDeletingId(null);
+      alert(`Error deleting medication: ${error.response?.data?.message || error.message}`);
     }
+    setDeletingId(null);
   };
 
   const handleShowAdd = (med) => {
@@ -77,53 +81,59 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-container">
-      <h1 className="welcome-header">
-        Welcome, {data.user?.name || 'Guest'}
-      </h1>
-      <p className="role-text">
-        Role: {data.user?.role || 'N/A'}
-      </p>
+      <h1 className="welcome-header">Welcome, {data.user.name || 'Guest'}</h1>
+      <p className="role-text">Role: {data.user.role || 'N/A'}</p>
 
       <div className="content-grid">
         {/* Medications Section */}
         <div>
           <div className="card">
             <h2 className="section-title">Your Medications</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Medicine</th>
-                  <th>Dosage</th>
-                  <th>Unit</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.medications.map(med => (
-                  <tr key={med.id}>
-                    <td>{med.medicine}</td>
-                    <td>{med.dosage || 'N/A'}</td>
-                    <td>{med.unit || 'N/A'}</td>
-                    <td>
-                      <button className="add-reminder-btn" onClick={() => handleShowAdd(med)}>
-                        Add reminder
-                      </button>
-                      <button
-                        className="delete-btn"
-                        onClick={() => deleteMedication(med.id)}
-                        disabled={deletingId === med.id}
-                      >
-                        {deletingId === med.id ? 'Deleting...' : 'Delete'}
-                      </button>
-                    </td>
+            {data.medications.length === 0 ? (
+              <p>No medications added yet.</p>
+            ) : (
+              <table>
+                <thead>
+                  <tr>
+                    <th>Medicine</th>
+                    <th>Dosage</th>
+                    <th>Unit</th>
+                    <th>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {data.medications.map(med => (
+                    <tr key={med.id}>
+                      <td>{med.medicine}</td>
+                      <td>{med.dosage || 'N/A'}</td>
+                      <td>{med.unit || 'N/A'}</td>
+                      <td>
+                        <button
+                          className="add-reminder-btn"
+                          onClick={() => handleShowAdd(med)}
+                        >
+                          Add reminder
+                        </button>
+                        <button
+                          className="delete-btn"
+                          onClick={() => deleteMedication(med.id)}
+                          disabled={deletingId === med.id}
+                        >
+                          {deletingId === med.id ? 'Deleting...' : 'Delete'}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
 
           <div className="add-medication-btn-container">
-            <button className="add-medication-btn" onClick={() => navigate('/addmedication')}>
+            <button
+              className="add-medication-btn"
+              onClick={() => navigate('/addmedication')}
+            >
               Add Your Medications
             </button>
           </div>
@@ -132,41 +142,48 @@ export default function Dashboard() {
         {/* Reminders Section */}
         <div className="card">
           <h2 className="section-title">Your Reminders</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Method</th>
-                <th>Status</th>
-                <th>Time</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.reminders.map(rem => (
-                <tr key={rem.id}>
-                  <td>{rem.method}</td>
-                  <td>{rem.status || 'Pending'}</td>
-                  <td>{rem.time || 'N/A'}</td>
-                  <td>
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleReminderDelete(rem.id)}
-                      disabled={deletingId === rem.id}
-                    >
-                      {deletingId === rem.id ? 'Deleting...' : 'Delete'}
-                    </button>
-                  </td>
+          {data.reminders.length === 0 ? (
+            <p>No reminders set.</p>
+          ) : (
+            <table>
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>Status</th>
+                  <th>Time</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {data.reminders.map(rem => (
+                  <tr key={rem.id}>
+                    <td>{rem.method}</td>
+                    <td>{rem.status || 'Pending'}</td>
+                    <td>{rem.time || 'N/A'}</td>
+                    <td>
+                      <button
+                        className="delete-btn"
+                        onClick={() => handleReminderDelete(rem.id)}
+                        disabled={deletingId === rem.id}
+                      >
+                        {deletingId === rem.id ? 'Deleting...' : 'Delete'}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
 
       {showAdd && (
-        <div className="modal-overlay">
-          <div onClick={(e) => e.stopPropagation()}>
-            <ReminderForm medication={currentMedication} onClose={setShowAdd} />
+        <div className="modal-overlay" onClick={() => setShowAdd(false)}>
+          <div onClick={e => e.stopPropagation()}>
+            <ReminderForm
+              medication={currentMedication}
+              onClose={() => setShowAdd(false)}
+            />
           </div>
         </div>
       )}
