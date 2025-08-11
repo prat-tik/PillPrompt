@@ -1,25 +1,31 @@
 require('dotenv').config();
-
+const express = require('express');
+const cors = require('cors');
 const app = require('./app');
 const cron = require('node-cron');
+const pool = require('./utils/db');
+const mail = require('./email/email');
 
-// Optional: kick off any scheduled jobs here
-// cron.schedule('*/5 * * * *', () => {
-//   console.log('Cron job running every 5 minutes');
-// });
+const PORT = process.env.PORT || 5000; // Fallback for safety
 
-const PORT = process.env.PORT || 5000;
+// ✅ CORS setup for Vercel + local dev
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://pill-prompt-1l73-efc6bmcd6-pratiks-projects-1e4951dd.vercel.app'
+];
 
-const server = app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 
-// Graceful shutdown (optional)
-process.on('SIGTERM', () => {
-  console.log('SIGTERM received, shutting down gracefully...');
-  server.close(() => process.exit(0));
-});
-process.on('SIGINT', () => {
-  console.log('SIGINT received, shutting down gracefully...');
-  server.close(() => process.exit(0));
+// ✅ Start server
+app.listen(PORT, () => {
+  console.log(`🔥 Server running on port ${PORT}`);
 });
