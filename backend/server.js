@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 5000;
 // ✅ CORS setup for Vercel + local dev
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://pill-prompt-1l73-4rafped5b-pratiks-projects-1e4951dd.vercel.app'
+  'https://pill-prompt-1l73-efc6bmcd6-pratiks-projects-1e4951dd.vercel.app' // ✅ updated
 ];
 
 app.use(cors({
